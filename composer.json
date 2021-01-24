@@ -1,7 +1,7 @@
 {
-    "name": "zing/package-skeleton-laravel",
-    "description": "A skeleton repository for Laravel Packages",
-    "keywords": ["laravel", "package", "skeleton"],
+    "name": "zing/laravel-vote",
+    "description": "User upvote/downvote behaviour for Laravel.",
+    "keywords": ["laravel", "vote", "vote"],
     "license": "MIT",
     "authors": [
         {
@@ -15,6 +15,7 @@
     },
     "require": {
         "php": "^7.2 || ^8.0",
+        "illuminate/database": "^6.20.12 || ^7.30.3 || ^8.22.1",
         "illuminate/support": "^6.0 || ^7.0 || ^8.0"
     },
     "require-dev": {
@@ -25,25 +26,30 @@
     },
     "autoload": {
         "psr-4": {
-            "Zing\\Skeleton\\": "src"
+            "Zing\\LaravelVote\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Zing\\Skeleton\\Tests\\": "tests"
+            "Zing\\LaravelVote\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Zing\\LaravelVote\\VoteServiceProvider"
+            ]
         }
     },
     "scripts": {
         "lint:rector": "@fix:rector --dry-run",
         "lint:ecs": "ecs check --ansi",
-        "lint:phpstan": "phpstan analyse --ansi",
         "fix:rector": "rector process --ansi",
         "fix:ecs": "@lint:ecs --fix",
         "test:phpunit": "phpunit --colors=always",
         "lint": [
             "@lint:rector",
-            "@lint:ecs",
-            "@lint:phpstan"
+            "@lint:ecs"
         ],
         "fix": [
             "@fix:rector",
@@ -52,16 +58,6 @@
         "test": [
             "@test:phpunit"
         ]
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Zing\\Skeleton\\SkeletonServiceProvider"
-            ],
-            "aliases": {
-                "Skeleton": "Zing\\Skeleton\\Facades\\Skeleton"
-            }
-        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true
