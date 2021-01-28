@@ -28,9 +28,14 @@ use function is_a;
  */
 trait Voteable
 {
+    protected function isVoter($user): bool
+    {
+        return is_a($user, config('vote.models.user'));
+    }
+
     public function isUpvotedBy(Model $user): bool
     {
-        if (! is_a($user, config('vote.models.user'))) {
+        if (! $this->isVoter($user)) {
             return false;
         }
 
@@ -44,7 +49,7 @@ trait Voteable
 
     public function isDownvotedBy(Model $user): bool
     {
-        if (! is_a($user, config('vote.models.user'))) {
+        if (! $this->isVoter($user)) {
             return false;
         }
 
@@ -63,7 +68,7 @@ trait Voteable
      */
     public function isVotedBy(Model $user): bool
     {
-        if (! is_a($user, config('vote.models.user'))) {
+        if (! $this->isVoter($user)) {
             return false;
         }
 
