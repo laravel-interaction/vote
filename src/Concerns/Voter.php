@@ -20,7 +20,16 @@ trait Voter
      */
     public function vote(Model $object, $upvote = true): void
     {
-        $this->votedItems(get_class($object))->attach(
+        // compatible with laravel 6
+        $vote = ($this->relationLoaded('votes') ? $this->votes : $this->votes())
+            ->where('voteable_id', $object->getKey())
+            ->where('voteable_type', $object->getMorphClass())
+            ->first();
+        if ($vote && $vote->upvote === $upvote) {
+            return;
+        }
+
+        $this->votedItems(get_class($object))->syncWithoutDetaching(
             [
                 $object->getKey() => [
                     'upvote' => $upvote,
@@ -130,7 +139,7 @@ trait Voter
      */
     protected function votedItems(string $class): MorphToMany
     {
-        return $this->morphedByMany($class, 'voteable', config('vote.models.vote'), config('vote.column_names.user_foreign_key'), 'voteable_id')->withTimestamps();
+        return $this->morphedByMany($class, 'voteable', config('vote.models.vote'), config('vote.column_names.user_foreign_key'), 'voteable_id')->withTimestamps()->withPivot('upvote');
     }
 
     /**

@@ -128,6 +128,13 @@ $channels->each(function (Channel $channel){
 });
 ```
 
+### Events
+
+| Event | Fired |
+| --- | --- |
+| `Zing\LaravelVote\Events\Voted` | When an object get voted/upvoted/downvoted. |
+| `Zing\LaravelVote\Events\VoteCanceled` | When an object get vote cancellation. |
+
 ## License
 
 Laravel Vote is an open-sourced software licensed under the [MIT license](LICENSE).
