@@ -9,11 +9,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphPivot;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Zing\LaravelVote\Events\VoteCanceled;
+use Zing\LaravelVote\Events\Voted;
 
 /**
  * @property \Illuminate\Database\Eloquent\Model $user
  * @property \Illuminate\Database\Eloquent\Model $voter
  * @property \Illuminate\Database\Eloquent\Model $voteable
+ * @property bool $upvote
  *
  * @method static \Zing\LaravelVote\Vote|\Illuminate\Database\Eloquent\Builder withType(string $type)
  * @method static \Zing\LaravelVote\Vote|\Illuminate\Database\Eloquent\Builder query()
@@ -21,6 +24,15 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 class Vote extends MorphPivot
 {
     public $incrementing = true;
+
+    protected $dispatchesEvents = [
+        'saved' => Voted::class,
+        'deleted' => VoteCanceled::class,
+    ];
+
+    protected $casts = [
+        'upvote' => 'bool',
+    ];
 
     public function getTable()
     {
@@ -59,6 +71,16 @@ class Vote extends MorphPivot
     public function isVotedTo(Model $object): bool
     {
         return $object->is($this->voteable);
+    }
+
+    public function isUpvote(): bool
+    {
+        return $this->upvote;
+    }
+
+    public function isDownvote(): bool
+    {
+        return ! $this->isUpvote();
     }
 
     /**
