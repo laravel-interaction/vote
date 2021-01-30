@@ -20,7 +20,7 @@ trait Voter
      */
     public function vote(Model $object, $upvote = true): void
     {
-        // compatible with laravel 6
+        /** @var \Zing\LaravelVote\Vote $vote */
         $vote = ($this->relationLoaded('votes') ? $this->votes : $this->votes())
             ->where('voteable_id', $object->getKey())
             ->where('voteable_type', $object->getMorphClass())
@@ -29,7 +29,14 @@ trait Voter
             return;
         }
 
-        $this->votedItems(get_class($object))->syncWithoutDetaching(
+        if ($vote) {
+            $vote->upvote = $upvote;
+            $vote->save();
+
+            return;
+        }
+
+        $this->votedItems(get_class($object))->attach(
             [
                 $object->getKey() => [
                     'upvote' => $upvote,
