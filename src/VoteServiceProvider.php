@@ -46,6 +46,6 @@ class VoteServiceProvider extends ServiceProvider
 
     private function shouldLoadMigrations(): bool
     {
-        return config('vote.load_migrations');
+        return (bool) config('vote.load_migrations');
     }
 }
