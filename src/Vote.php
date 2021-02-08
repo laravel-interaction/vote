@@ -58,9 +58,9 @@ class Vote extends MorphPivot
         return config('vote.table_names.votes') ?: parent::getTable();
     }
 
-    protected static function booted(): void
+    protected static function boot(): void
     {
-        parent::booted();
+        parent::boot();
 
         static::creating(
             function (self $vote): void {
