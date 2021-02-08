@@ -23,10 +23,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - [#2] Remove duplicate keywords
 
-[#2]: https://github.com/zingimmick/laravel-vote/pull/2
+[#2]: https://github.com/laravel-interaction/vote/pull/2
 
-[#5]: https://github.com/zingimmick/laravel-vote/pull/5
+[#5]: https://github.com/laravel-interaction/vote/pull/5
 
-[#4]: https://github.com/zingimmick/laravel-vote/pull/4
+[#4]: https://github.com/laravel-interaction/vote/pull/4
 
-[#3]: https://github.com/zingimmick/laravel-vote/pull/3
+[#3]: https://github.com/laravel-interaction/vote/pull/3
