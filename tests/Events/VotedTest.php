@@ -16,7 +16,7 @@ class VotedTest extends TestCase
     {
         $user = User::query()->create();
         $channel = Channel::query()->create();
-        Event::fake();
+        Event::fake([Voted::class]);
         $user->vote($channel);
         Event::assertDispatchedTimes(Voted::class);
     }
@@ -25,7 +25,7 @@ class VotedTest extends TestCase
     {
         $user = User::query()->create();
         $channel = Channel::query()->create();
-        Event::fake();
+        Event::fake([Voted::class]);
         $user->vote($channel);
         $user->vote($channel);
         $user->vote($channel);
@@ -36,7 +36,7 @@ class VotedTest extends TestCase
     {
         $user = User::query()->create();
         $channel = Channel::query()->create();
-        Event::fake();
+        Event::fake([Voted::class]);
         $user->vote($channel);
         $user->downvote($channel);
         Event::assertDispatchedTimes(Voted::class, 2);

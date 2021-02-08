@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphPivot;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Str;
 use Zing\LaravelVote\Events\VoteCanceled;
 use Zing\LaravelVote\Events\Voted;
 
@@ -23,7 +24,25 @@ use Zing\LaravelVote\Events\Voted;
  */
 class Vote extends MorphPivot
 {
-    public $incrementing = true;
+    protected function uuids(): bool
+    {
+        return (bool) config('vote.uuids');
+    }
+
+    public function getIncrementing(): bool
+    {
+        return $this->uuids() ? true : parent::getIncrementing();
+    }
+
+    public function getKeyName(): string
+    {
+        return $this->uuids() ? 'uuid' : parent::getKeyName();
+    }
+
+    public function getKeyType(): string
+    {
+        return $this->uuids() ? 'string' : parent::getKeyType();
+    }
 
     protected $dispatchesEvents = [
         'saved' => Voted::class,
@@ -37,6 +56,19 @@ class Vote extends MorphPivot
     public function getTable()
     {
         return config('vote.table_names.votes') ?: parent::getTable();
+    }
+
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::creating(
+            function (self $vote): void {
+                if ($vote->uuids()) {
+                    $vote->{$vote->getKeyName()} = Str::orderedUuid();
+                }
+            }
+        );
     }
 
     /**

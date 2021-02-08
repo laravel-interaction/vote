@@ -39,6 +39,7 @@ class TestCase extends BaseTestCase
             [
                 'database.default' => 'testing',
                 'vote.models.user' => User::class,
+                'vote.uuids' => true,
             ]
         );
     }
