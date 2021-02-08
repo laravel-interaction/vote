@@ -16,7 +16,7 @@ class CreateVotesTable extends Migration
         Schema::create(
             config('vote.table_names.votes'),
             function (Blueprint $table): void {
-              config('vote.uuids') ? $table->uuid('uuid') : $table->bigIncrements('id');
+                config('vote.uuids') ? $table->uuid('uuid') : $table->bigIncrements('id');
                 $table->unsignedBigInteger(config('vote.column_names.user_foreign_key'))->index()->comment('user_id');
                 $table->morphs('voteable');
                 $table->boolean('upvote')->default(true);
