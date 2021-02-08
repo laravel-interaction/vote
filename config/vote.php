@@ -6,7 +6,7 @@ use Zing\LaravelVote\Vote;
 
 return [
     'load_migrations' => true,
-    'uuids' => true,
+    'uuids' => false,
     'models' => [
         'user' => \App\User::class,
         'vote' => Vote::class,
