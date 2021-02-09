@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Zing\LaravelVote\Vote;
+use LaravelInteraction\Vote\Vote;
 
 return [
     'load_migrations' => true,

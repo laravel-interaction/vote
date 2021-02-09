@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Zing\LaravelVote\Tests\Concerns;
+namespace LaravelInteraction\Vote\Tests\Concerns;
 
-use Zing\LaravelVote\Tests\Models\Channel;
-use Zing\LaravelVote\Tests\Models\User;
-use Zing\LaravelVote\Tests\TestCase;
-use Zing\LaravelVote\Vote;
+use LaravelInteraction\Vote\Tests\Models\Channel;
+use LaravelInteraction\Vote\Tests\Models\User;
+use LaravelInteraction\Vote\Tests\TestCase;
+use LaravelInteraction\Vote\Vote;
 
 class VoterTest extends TestCase
 {

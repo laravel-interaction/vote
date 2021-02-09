@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zing\LaravelVote;
+namespace LaravelInteraction\Vote;
 
 use Illuminate\Support\ServiceProvider;
 

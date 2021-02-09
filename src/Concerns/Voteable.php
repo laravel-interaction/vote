@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zing\LaravelVote\Concerns;
+namespace LaravelInteraction\Vote\Concerns;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -11,10 +11,10 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use function is_a;
 
 /**
- * @property-read \Illuminate\Database\Eloquent\Collection|\Zing\LaravelVote\Vote[] $votes
- * @property-read \Illuminate\Database\Eloquent\Collection|\Zing\LaravelVote\Concerns\Voter[] $voters
- * @property-read \Illuminate\Database\Eloquent\Collection|\Zing\LaravelVote\Concerns\Voter[] $upvoters
- * @property-read \Illuminate\Database\Eloquent\Collection|\Zing\LaravelVote\Concerns\Voter[] $downvoters
+ * @property-read \Illuminate\Database\Eloquent\Collection|\LaravelInteraction\Vote\Vote[] $votes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\LaravelInteraction\Vote\Concerns\Voter[] $voters
+ * @property-read \Illuminate\Database\Eloquent\Collection|\LaravelInteraction\Vote\Concerns\Voter[] $upvoters
+ * @property-read \Illuminate\Database\Eloquent\Collection|\LaravelInteraction\Vote\Concerns\Voter[] $downvoters
  * @property-read int|null $voters_count
  * @property-read int|null $upvoters_count
  * @property-read int|null $downvoters_count

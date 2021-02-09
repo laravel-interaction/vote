@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Zing\LaravelVote\Tests;
+namespace LaravelInteraction\Vote\Tests;
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use LaravelInteraction\Vote\Tests\Models\User;
+use LaravelInteraction\Vote\VoteServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use Zing\LaravelVote\Tests\Models\User;
-use Zing\LaravelVote\VoteServiceProvider;
 
 class TestCase extends BaseTestCase
 {

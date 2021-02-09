@@ -26,7 +26,7 @@ composer require laravel-interaction/vote
 
 ```php
 use Illuminate\Database\Eloquent\Model;
-use Zing\LaravelVote\Concerns\Voter;
+use LaravelInteraction\Vote\Concerns\Voter;
 
 class User extends Model
 {
@@ -38,7 +38,7 @@ class User extends Model
 
 ```php
 use Illuminate\Database\Eloquent\Model;
-use Zing\LaravelVote\Concerns\Voteable;
+use LaravelInteraction\Vote\Concerns\Voteable;
 
 class Channel extends Model
 {
@@ -49,9 +49,9 @@ class Channel extends Model
 ### Voter
 
 ```php
-use Zing\LaravelVote\Tests\Models\Channel;
-/** @var \Zing\LaravelVote\Tests\Models\User $user */
-/** @var \Zing\LaravelVote\Tests\Models\Channel $channel */
+use LaravelInteraction\Vote\Tests\Models\Channel;
+/** @var \LaravelInteraction\Vote\Tests\Models\User $user */
+/** @var \LaravelInteraction\Vote\Tests\Models\Channel $channel */
 // Vote to Voteable
 $user->vote($channel);
 $user->upvote($channel);
@@ -89,10 +89,10 @@ Channel::query()->whereNotDownvotedBy($user)->get();
 ### Voteable
 
 ```php
-use Zing\LaravelVote\Tests\Models\User;
-use Zing\LaravelVote\Tests\Models\Channel;
-/** @var \Zing\LaravelVote\Tests\Models\User $user */
-/** @var \Zing\LaravelVote\Tests\Models\Channel $channel */
+use LaravelInteraction\Vote\Tests\Models\User;
+use LaravelInteraction\Vote\Tests\Models\Channel;
+/** @var \LaravelInteraction\Vote\Tests\Models\User $user */
+/** @var \LaravelInteraction\Vote\Tests\Models\Channel $channel */
 // Compare Voter
 $channel->isVotedBy($user); 
 $channel->isNotVotedBy($user);
@@ -132,8 +132,8 @@ $channels->each(function (Channel $channel){
 
 | Event | Fired |
 | --- | --- |
-| `Zing\LaravelVote\Events\Voted` | When an object get voted/upvoted/downvoted. |
-| `Zing\LaravelVote\Events\VoteCanceled` | When an object get vote cancellation. |
+| `LaravelInteraction\Vote\Events\Voted` | When an object get voted/upvoted/downvoted. |
+| `LaravelInteraction\Vote\Events\VoteCanceled` | When an object get vote cancellation. |
 
 ## License
 

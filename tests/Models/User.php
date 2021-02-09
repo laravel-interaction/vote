@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Zing\LaravelVote\Tests\Models;
+namespace LaravelInteraction\Vote\Tests\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Zing\LaravelVote\Concerns\Voter;
+use LaravelInteraction\Vote\Concerns\Voter;
 
 /**
- * @method static \Zing\LaravelVote\Tests\Models\User|\Illuminate\Database\Eloquent\Builder query()
+ * @method static \LaravelInteraction\Vote\Tests\Models\User|\Illuminate\Database\Eloquent\Builder query()
  */
 class User extends Model
 {

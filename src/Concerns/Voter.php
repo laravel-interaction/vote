@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Zing\LaravelVote\Concerns;
+namespace LaravelInteraction\Vote\Concerns;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
- * @property-read \Illuminate\Database\Eloquent\Collection|\Zing\LaravelVote\Vote[] $votes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\LaravelInteraction\Vote\Vote[] $votes
  * @property-read int|null $votes_count
  */
 trait Voter
@@ -20,7 +20,7 @@ trait Voter
      */
     public function vote(Model $object, $upvote = true): void
     {
-        /** @var \Zing\LaravelVote\Vote $vote */
+        /** @var \LaravelInteraction\Vote\Vote $vote */
         $vote = ($this->relationLoaded('votes') ? $this->votes : $this->votes())
             ->where('voteable_id', $object->getKey())
             ->where('voteable_type', $object->getMorphClass())

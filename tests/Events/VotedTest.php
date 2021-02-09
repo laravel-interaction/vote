@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Zing\LaravelVote\Tests\Events;
+namespace LaravelInteraction\Vote\Tests\Events;
 
 use Illuminate\Support\Facades\Event;
-use Zing\LaravelVote\Events\Voted;
-use Zing\LaravelVote\Tests\Models\Channel;
-use Zing\LaravelVote\Tests\Models\User;
-use Zing\LaravelVote\Tests\TestCase;
+use LaravelInteraction\Vote\Events\Voted;
+use LaravelInteraction\Vote\Tests\Models\Channel;
+use LaravelInteraction\Vote\Tests\Models\User;
+use LaravelInteraction\Vote\Tests\TestCase;
 
 class VotedTest extends TestCase
 {

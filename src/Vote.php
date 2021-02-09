@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zing\LaravelVote;
+namespace LaravelInteraction\Vote;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphPivot;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Str;
-use Zing\LaravelVote\Events\VoteCanceled;
-use Zing\LaravelVote\Events\Voted;
+use LaravelInteraction\Vote\Events\VoteCanceled;
+use LaravelInteraction\Vote\Events\Voted;
 
 /**
  * @property \Illuminate\Database\Eloquent\Model $user
@@ -19,8 +19,8 @@ use Zing\LaravelVote\Events\Voted;
  * @property \Illuminate\Database\Eloquent\Model $voteable
  * @property bool $upvote
  *
- * @method static \Zing\LaravelVote\Vote|\Illuminate\Database\Eloquent\Builder withType(string $type)
- * @method static \Zing\LaravelVote\Vote|\Illuminate\Database\Eloquent\Builder query()
+ * @method static \LaravelInteraction\Vote\Vote|\Illuminate\Database\Eloquent\Builder withType(string $type)
+ * @method static \LaravelInteraction\Vote\Vote|\Illuminate\Database\Eloquent\Builder query()
  */
 class Vote extends MorphPivot
 {

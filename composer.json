@@ -27,18 +27,18 @@
     },
     "autoload": {
         "psr-4": {
-            "Zing\\LaravelVote\\": "src"
+            "LaravelInteraction\\Vote\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Zing\\LaravelVote\\Tests\\": "tests"
+            "LaravelInteraction\\Vote\\Tests\\": "tests"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Zing\\LaravelVote\\VoteServiceProvider"
+                "LaravelInteraction\\Vote\\VoteServiceProvider"
             ]
         }
     },

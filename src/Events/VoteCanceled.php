@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zing\LaravelVote\Events;
+namespace LaravelInteraction\Vote\Events;
 
 use Illuminate\Database\Eloquent\Model;
 

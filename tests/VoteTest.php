@@ -2,27 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Zing\LaravelVote\Tests;
+namespace LaravelInteraction\Vote\Tests;
 
 use Illuminate\Support\Carbon;
-use Zing\LaravelVote\Tests\Models\Channel;
-use Zing\LaravelVote\Tests\Models\User;
-use Zing\LaravelVote\Vote;
+use LaravelInteraction\Vote\Tests\Models\Channel;
+use LaravelInteraction\Vote\Tests\Models\User;
+use LaravelInteraction\Vote\Vote;
 
 class VoteTest extends TestCase
 {
     /**
-     * @var \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|\Zing\LaravelVote\Tests\Models\User
+     * @var \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|\LaravelInteraction\Vote\Tests\Models\User
      */
     protected $user;
 
     /**
-     * @var \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|\Zing\LaravelVote\Tests\Models\Channel
+     * @var \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|\LaravelInteraction\Vote\Tests\Models\Channel
      */
     protected $channel;
 
     /**
-     * @var \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|\Zing\LaravelVote\Vote|null
+     * @var \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|\LaravelInteraction\Vote\Vote|null
      */
     protected $vote;
 
