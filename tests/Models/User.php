@@ -6,6 +6,7 @@ namespace LaravelInteraction\Vote\Tests\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use LaravelInteraction\Vote\Concerns\Voteable;
 use LaravelInteraction\Vote\Concerns\Voter;
 
 /**
@@ -14,6 +15,7 @@ use LaravelInteraction\Vote\Concerns\Voter;
 class User extends Model
 {
     use Voter;
+    use Voteable;
 
     public function votedChannels(): MorphToMany
     {

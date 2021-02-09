@@ -67,10 +67,10 @@ $user->hasDownvoted($channel);
 $user->hasNotDownvoted($channel);
 
 // Get voted info
-$user->votes()->count(); 
+$user->voterVotes()->count(); 
 
 // with type
-$user->votes()->withType(Channel::class)->count(); 
+$user->voterVotes()->withType(Channel::class)->count(); 
 $user->votedChannels()->count();
 $user->upvotedChannels()->count();
 $user->downvotedChannels()->count();

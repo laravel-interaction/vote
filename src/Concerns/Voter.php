@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 /**
- * @property-read \Illuminate\Database\Eloquent\Collection|\LaravelInteraction\Vote\Vote[] $votes
- * @property-read int|null $votes_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\LaravelInteraction\Vote\Vote[] $voterVotes
+ * @property-read int|null $voter_votes_count
  */
 trait Voter
 {
@@ -21,7 +21,7 @@ trait Voter
     public function vote(Model $object, $upvote = true): void
     {
         /** @var \LaravelInteraction\Vote\Vote $vote */
-        $vote = ($this->relationLoaded('votes') ? $this->votes : $this->votes())
+        $vote = ($this->relationLoaded('voterVotes') ? $this->voterVotes : $this->voterVotes())
             ->where('voteable_id', $object->getKey())
             ->where('voteable_type', $object->getMorphClass())
             ->first();
@@ -86,7 +86,7 @@ trait Voter
      */
     public function hasVoted(Model $object): bool
     {
-        return ($this->relationLoaded('votes') ? $this->votes : $this->votes())
+        return ($this->relationLoaded('votes') ? $this->voterVotes : $this->voterVotes())
             ->where('voteable_id', $object->getKey())
             ->where('voteable_type', $object->getMorphClass())
             ->count() > 0;
@@ -99,7 +99,7 @@ trait Voter
      */
     public function hasUpvoted(Model $object): bool
     {
-        return ($this->relationLoaded('votes') ? $this->votes : $this->votes())
+        return ($this->relationLoaded('votes') ? $this->voterVotes : $this->voterVotes())
             ->where('voteable_id', $object->getKey())
             ->where('voteable_type', $object->getMorphClass())
             ->where('upvote', true)
@@ -113,7 +113,7 @@ trait Voter
      */
     public function hasDownvoted(Model $object): bool
     {
-        return ($this->relationLoaded('votes') ? $this->votes : $this->votes())
+        return ($this->relationLoaded('votes') ? $this->voterVotes : $this->voterVotes())
             ->where('voteable_id', $object->getKey())
             ->where('voteable_type', $object->getMorphClass())
             ->where('upvote', false)
@@ -138,7 +138,7 @@ trait Voter
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function votes(): HasMany
+    public function voterVotes(): HasMany
     {
         return $this->hasMany(config('vote.models.vote'), config('vote.column_names.user_foreign_key'), $this->getKeyName());
     }
