@@ -11,49 +11,77 @@ use Mockery;
 
 class VoteableTest extends TestCase
 {
-    public function testVotes(): void
+    public function modelClasses(): array
     {
-        $user = User::query()->create();
-        $channel = Channel::query()->create();
-        $user->vote($channel);
-        self::assertSame(1, $channel->votes()->count());
-        self::assertSame(1, $channel->votes->count());
+        return[
+            [Channel::class],
+            [User::class],
+        ];
     }
 
-    public function testVotersCount(): void
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel|string $modelClass
+     */
+    public function testVotes(string $modelClass): void
     {
         $user = User::query()->create();
-        $channel = Channel::query()->create();
-        $user->vote($channel);
-        self::assertSame(1, $channel->votersCount());
-        $user->cancelVote($channel);
-        self::assertSame(1, $channel->votersCount());
-        $channel->loadCount('voters');
-        self::assertSame(0, $channel->votersCount());
+        $model = $modelClass::query()->create();
+        $user->vote($model);
+        self::assertSame(1, $model->voteableVotes()->count());
+        self::assertSame(1, $model->voteableVotes->count());
     }
 
-    public function testUpvotersCount(): void
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel|string $modelClass
+     */
+    public function testVotersCount(string $modelClass): void
     {
         $user = User::query()->create();
-        $channel = Channel::query()->create();
-        $user->upvote($channel);
-        self::assertSame(1, $channel->upvotersCount());
-        $user->cancelVote($channel);
-        self::assertSame(1, $channel->upvotersCount());
-        $channel->loadCount('upvoters');
-        self::assertSame(0, $channel->upvotersCount());
+        $model = $modelClass::query()->create();
+        $user->vote($model);
+        self::assertSame(1, $model->votersCount());
+        $user->cancelVote($model);
+        self::assertSame(1, $model->votersCount());
+        $model->loadCount('voters');
+        self::assertSame(0, $model->votersCount());
     }
 
-    public function testDownvotersCount(): void
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel|string $modelClass
+     */
+    public function testUpvotersCount(string $modelClass): void
     {
         $user = User::query()->create();
-        $channel = Channel::query()->create();
-        $user->downvote($channel);
-        self::assertSame(1, $channel->downvotersCount());
-        $user->cancelVote($channel);
-        self::assertSame(1, $channel->downvotersCount());
-        $channel->loadCount('downvoters');
-        self::assertSame(0, $channel->downvotersCount());
+        $model = $modelClass::query()->create();
+        $user->upvote($model);
+        self::assertSame(1, $model->upvotersCount());
+        $user->cancelVote($model);
+        self::assertSame(1, $model->upvotersCount());
+        $model->loadCount('upvoters');
+        self::assertSame(0, $model->upvotersCount());
+    }
+
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel|string $modelClass
+     */
+    public function testDownvotersCount(string $modelClass): void
+    {
+        $user = User::query()->create();
+        $model = $modelClass::query()->create();
+        $user->downvote($model);
+        self::assertSame(1, $model->downvotersCount());
+        $user->cancelVote($model);
+        self::assertSame(1, $model->downvotersCount());
+        $model->loadCount('downvoters');
+        self::assertSame(0, $model->downvotersCount());
     }
 
     public function data(): array
@@ -127,177 +155,252 @@ class VoteableTest extends TestCase
         self::assertSame($halfDown, $channel->downvotersCountForHumans(2, PHP_ROUND_HALF_DOWN));
     }
 
-    public function testIsVotedBy(): void
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel|string $modelClass
+     */
+    public function testIsVotedBy(string $modelClass): void
     {
         $user = User::query()->create();
-        $channel = Channel::query()->create();
-        self::assertFalse($channel->isVotedBy($channel));
-        $user->vote($channel);
-        self::assertTrue($channel->isVotedBy($user));
-        $channel->load('voters');
-        $user->cancelVote($channel);
-        self::assertTrue($channel->isVotedBy($user));
-        $channel->load('voters');
-        self::assertFalse($channel->isVotedBy($user));
+        $model = $modelClass::query()->create();
+        self::assertFalse($model->isVotedBy($model));
+        $user->vote($model);
+        self::assertTrue($model->isVotedBy($user));
+        $model->load('voters');
+        $user->cancelVote($model);
+        self::assertTrue($model->isVotedBy($user));
+        $model->load('voters');
+        self::assertFalse($model->isVotedBy($user));
     }
 
-    public function testIsNotVotedBy(): void
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel|string $modelClass
+     */
+    public function testIsNotVotedBy(string $modelClass): void
     {
         $user = User::query()->create();
-        $channel = Channel::query()->create();
-        self::assertTrue($channel->isNotVotedBy($channel));
-        $user->vote($channel);
-        self::assertFalse($channel->isNotVotedBy($user));
-        $channel->load('voters');
-        $user->cancelVote($channel);
-        self::assertFalse($channel->isNotVotedBy($user));
-        $channel->load('voters');
-        self::assertTrue($channel->isNotVotedBy($user));
+        $model = $modelClass::query()->create();
+        self::assertTrue($model->isNotVotedBy($model));
+        $user->vote($model);
+        self::assertFalse($model->isNotVotedBy($user));
+        $model->load('voters');
+        $user->cancelVote($model);
+        self::assertFalse($model->isNotVotedBy($user));
+        $model->load('voters');
+        self::assertTrue($model->isNotVotedBy($user));
     }
 
-    public function testIsUpvotedBy(): void
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel|string $modelClass
+     */
+    public function testIsUpvotedBy(string $modelClass): void
     {
         $user = User::query()->create();
-        $channel = Channel::query()->create();
-        self::assertFalse($channel->isVotedBy($channel));
-        $user->upvote($channel);
-        self::assertTrue($channel->isUpvotedBy($user));
-        $channel->load('upvoters');
-        $user->cancelVote($channel);
-        self::assertTrue($channel->isUpvotedBy($user));
-        $channel->load('upvoters');
-        self::assertFalse($channel->isUpvotedBy($user));
+        $model = $modelClass::query()->create();
+        self::assertFalse($model->isVotedBy($model));
+        $user->upvote($model);
+        self::assertTrue($model->isUpvotedBy($user));
+        $model->load('upvoters');
+        $user->cancelVote($model);
+        self::assertTrue($model->isUpvotedBy($user));
+        $model->load('upvoters');
+        self::assertFalse($model->isUpvotedBy($user));
     }
 
-    public function testIsNotUpvotedBy(): void
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel|string $modelClass
+     */
+    public function testIsNotUpvotedBy(string $modelClass): void
     {
         $user = User::query()->create();
-        $channel = Channel::query()->create();
-        self::assertTrue($channel->isNotUpvotedBy($channel));
-        $user->vote($channel);
-        self::assertFalse($channel->isNotUpvotedBy($user));
-        $channel->load('upvoters');
-        $user->cancelVote($channel);
-        self::assertFalse($channel->isNotUpvotedBy($user));
-        $channel->load('upvoters');
-        self::assertTrue($channel->isNotUpvotedBy($user));
+        $model = $modelClass::query()->create();
+        self::assertTrue($model->isNotUpvotedBy($model));
+        $user->vote($model);
+        self::assertFalse($model->isNotUpvotedBy($user));
+        $model->load('upvoters');
+        $user->cancelVote($model);
+        self::assertFalse($model->isNotUpvotedBy($user));
+        $model->load('upvoters');
+        self::assertTrue($model->isNotUpvotedBy($user));
     }
 
-    public function testIsDownvotedBy(): void
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel|string $modelClass
+     */
+    public function testIsDownvotedBy(string $modelClass): void
     {
         $user = User::query()->create();
-        $channel = Channel::query()->create();
-        self::assertFalse($channel->isDownvotedBy($channel));
-        $user->downvote($channel);
-        self::assertTrue($channel->isDownvotedBy($user));
-        $channel->load('downvoters');
-        $user->cancelVote($channel);
-        self::assertTrue($channel->isDownvotedBy($user));
-        $channel->load('downvoters');
-        self::assertFalse($channel->isDownvotedBy($user));
+        $model = $modelClass::query()->create();
+        self::assertFalse($model->isDownvotedBy($model));
+        $user->downvote($model);
+        self::assertTrue($model->isDownvotedBy($user));
+        $model->load('downvoters');
+        $user->cancelVote($model);
+        self::assertTrue($model->isDownvotedBy($user));
+        $model->load('downvoters');
+        self::assertFalse($model->isDownvotedBy($user));
     }
 
-    public function testIsNotDownvotedBy(): void
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel|string $modelClass
+     */
+    public function testIsNotDownvotedBy(string $modelClass): void
     {
         $user = User::query()->create();
-        $channel = Channel::query()->create();
-        self::assertTrue($channel->isNotDownvotedBy($channel));
-        $user->downvote($channel);
-        self::assertFalse($channel->isNotDownvotedBy($user));
-        $channel->load('downvoters');
-        $user->cancelVote($channel);
-        self::assertFalse($channel->isNotDownvotedBy($user));
-        $channel->load('downvoters');
-        self::assertTrue($channel->isNotDownvotedBy($user));
+        $model = $modelClass::query()->create();
+        self::assertTrue($model->isNotDownvotedBy($model));
+        $user->downvote($model);
+        self::assertFalse($model->isNotDownvotedBy($user));
+        $model->load('downvoters');
+        $user->cancelVote($model);
+        self::assertFalse($model->isNotDownvotedBy($user));
+        $model->load('downvoters');
+        self::assertTrue($model->isNotDownvotedBy($user));
     }
 
-    public function testVoters(): void
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel|string $modelClass
+     */
+    public function testVoters(string $modelClass): void
     {
         $user = User::query()->create();
-        $channel = Channel::query()->create();
-        $user->vote($channel);
-        self::assertSame(1, $channel->voters()->count());
-        $user->cancelVote($channel);
-        self::assertSame(0, $channel->voters()->count());
+        $model = $modelClass::query()->create();
+        $user->vote($model);
+        self::assertSame(1, $model->voters()->count());
+        $user->cancelVote($model);
+        self::assertSame(0, $model->voters()->count());
     }
 
-    public function testUpvoters(): void
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel|string $modelClass
+     */
+    public function testUpvoters(string $modelClass): void
     {
         $user = User::query()->create();
-        $channel = Channel::query()->create();
-        $user->upvote($channel);
-        self::assertSame(1, $channel->upvoters()->count());
-        $user->cancelVote($channel);
-        self::assertSame(0, $channel->upvoters()->count());
+        $model = $modelClass::query()->create();
+        $user->upvote($model);
+        self::assertSame(1, $model->upvoters()->count());
+        $user->cancelVote($model);
+        self::assertSame(0, $model->upvoters()->count());
     }
 
-    public function testDownvoters(): void
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel|string $modelClass
+     */
+    public function testDownvoters(string $modelClass): void
     {
         $user = User::query()->create();
-        $channel = Channel::query()->create();
-        $user->downvote($channel);
-        self::assertSame(1, $channel->downvoters()->count());
-        $user->cancelVote($channel);
-        self::assertSame(0, $channel->downvoters()->count());
+        $model = $modelClass::query()->create();
+        $user->downvote($model);
+        self::assertSame(1, $model->downvoters()->count());
+        $user->cancelVote($model);
+        self::assertSame(0, $model->downvoters()->count());
     }
 
-    public function testScopeWhereVotedBy(): void
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel|string $modelClass
+     */
+    public function testScopeWhereVotedBy(string $modelClass): void
     {
         $user = User::query()->create();
         $other = User::query()->create();
-        $channel = Channel::query()->create();
-        $user->vote($channel);
-        self::assertSame(1, Channel::query()->whereVotedBy($user)->count());
-        self::assertSame(0, Channel::query()->whereVotedBy($other)->count());
+        $model = $modelClass::query()->create();
+        $user->vote($model);
+        self::assertSame(1, $modelClass::query()->whereVotedBy($user)->count());
+        self::assertSame(0, $modelClass::query()->whereVotedBy($other)->count());
     }
 
-    public function testScopeWhereNotVotedBy(): void
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel|string $modelClass
+     */
+    public function testScopeWhereNotVotedBy(string $modelClass): void
     {
         $user = User::query()->create();
         $other = User::query()->create();
-        $channel = Channel::query()->create();
-        $user->vote($channel);
-        self::assertSame(0, Channel::query()->whereNotVotedBy($user)->count());
-        self::assertSame(1, Channel::query()->whereNotVotedBy($other)->count());
+        $model = $modelClass::query()->create();
+        $user->vote($model);
+        self::assertSame($modelClass::query()->whereKeyNot($model->getKey())->count(), $modelClass::query()->whereNotVotedBy($user)->count());
+        self::assertSame($modelClass::query()->count(), $modelClass::query()->whereNotVotedBy($other)->count());
     }
 
-    public function testScopeWhereUpvotedBy(): void
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel|string $modelClass
+     */
+    public function testScopeWhereUpvotedBy(string $modelClass): void
     {
         $user = User::query()->create();
         $other = User::query()->create();
-        $channel = Channel::query()->create();
-        $user->upvote($channel);
-        self::assertSame(1, Channel::query()->whereUpvotedBy($user)->count());
-        self::assertSame(0, Channel::query()->whereUpvotedBy($other)->count());
+        $model = $modelClass::query()->create();
+        $user->upvote($model);
+        self::assertSame(1, $modelClass::query()->whereUpvotedBy($user)->count());
+        self::assertSame(0, $modelClass::query()->whereUpvotedBy($other)->count());
     }
 
-    public function testScopeWhereNotUpvotedBy(): void
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel|string $modelClass
+     */
+    public function testScopeWhereNotUpvotedBy(string $modelClass): void
     {
         $user = User::query()->create();
         $other = User::query()->create();
-        $channel = Channel::query()->create();
-        $user->upvote($channel);
-        self::assertSame(0, Channel::query()->whereNotUpvotedBy($user)->count());
-        self::assertSame(1, Channel::query()->whereNotUpvotedBy($other)->count());
+        $model = $modelClass::query()->create();
+        $user->upvote($model);
+        self::assertSame($modelClass::query()->whereKeyNot($model->getKey())->count(), $modelClass::query()->whereNotUpvotedBy($user)->count());
+        self::assertSame($modelClass::query()->count(), $modelClass::query()->whereNotUpvotedBy($other)->count());
     }
 
-    public function testScopeWhereDownvotedBy(): void
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel|string $modelClass
+     */
+    public function testScopeWhereDownvotedBy(string $modelClass): void
     {
         $user = User::query()->create();
         $other = User::query()->create();
-        $channel = Channel::query()->create();
-        $user->downvote($channel);
-        self::assertSame(1, Channel::query()->whereDownVotedBy($user)->count());
-        self::assertSame(0, Channel::query()->whereDownVotedBy($other)->count());
+        $model = $modelClass::query()->create();
+        $user->downvote($model);
+        self::assertSame(1, $modelClass::query()->whereDownVotedBy($user)->count());
+        self::assertSame(0, $modelClass::query()->whereDownVotedBy($other)->count());
     }
 
-    public function testScopeWhereNotDownvotedBy(): void
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel|string $modelClass
+     */
+    public function testScopeWhereNotDownvotedBy(string $modelClass): void
     {
         $user = User::query()->create();
         $other = User::query()->create();
-        $channel = Channel::query()->create();
-        $user->downvote($channel);
-        self::assertSame(0, Channel::query()->whereNotDownvotedBy($user)->count());
-        self::assertSame(1, Channel::query()->whereNotDownvotedBy($other)->count());
+        $model = $modelClass::query()->create();
+        $user->downvote($model);
+        self::assertSame($modelClass::query()->whereKeyNot($model->getKey())->count(), $modelClass::query()->whereNotDownvotedBy($user)->count());
+        self::assertSame($modelClass::query()->count(), $modelClass::query()->whereNotDownvotedBy($other)->count());
     }
 }

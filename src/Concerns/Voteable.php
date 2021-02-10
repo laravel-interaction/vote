@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use function is_a;
 
 /**
- * @property-read \Illuminate\Database\Eloquent\Collection|\LaravelInteraction\Vote\Vote[] $votes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\LaravelInteraction\Vote\Vote[] $voteableVotes
  * @property-read \Illuminate\Database\Eloquent\Collection|\LaravelInteraction\Vote\Concerns\Voter[] $voters
  * @property-read \Illuminate\Database\Eloquent\Collection|\LaravelInteraction\Vote\Concerns\Voter[] $upvoters
  * @property-read \Illuminate\Database\Eloquent\Collection|\LaravelInteraction\Vote\Concerns\Voter[] $downvoters
@@ -43,7 +43,7 @@ trait Voteable
             return $this->upvoters->contains($user);
         }
 
-        return ($this->relationLoaded('votes') ? $this->votes : $this->votes())
+        return ($this->relationLoaded('voteableVotes') ? $this->voteableVotes : $this->voteableVotes())
             ->where(config('vote.column_names.user_foreign_key'), $user->getKey())->where('upvote', true)->count() > 0;
     }
 
@@ -57,7 +57,7 @@ trait Voteable
             return $this->downvoters->contains($user);
         }
 
-        return ($this->relationLoaded('votes') ? $this->votes : $this->votes())
+        return ($this->relationLoaded('votes') ? $this->voteableVotes : $this->voteableVotes())
             ->where(config('vote.column_names.user_foreign_key'), $user->getKey())->where('upvote', false)->count() > 0;
     }
 
@@ -76,7 +76,7 @@ trait Voteable
             return $this->voters->contains($user);
         }
 
-        return ($this->relationLoaded('votes') ? $this->votes : $this->votes())
+        return ($this->relationLoaded('votes') ? $this->voteableVotes : $this->voteableVotes())
             ->where(config('vote.column_names.user_foreign_key'), $user->getKey())->count() > 0;
     }
 
@@ -98,7 +98,7 @@ trait Voteable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    public function votes(): MorphMany
+    public function voteableVotes(): MorphMany
     {
         return $this->morphMany(config('vote.models.vote'), 'voteable');
     }

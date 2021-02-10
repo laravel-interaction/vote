@@ -87,8 +87,8 @@ class VoterTest extends TestCase
         $user = User::query()->create();
         $channel = Channel::query()->create();
         $user->vote($channel);
-        self::assertSame(1, $user->votes()->count());
-        self::assertSame(1, $user->votes->count());
+        self::assertSame(1, $user->voterVotes()->count());
+        self::assertSame(1, $user->voterVotes->count());
     }
 
     public function testHasVoted(): void
@@ -98,7 +98,7 @@ class VoterTest extends TestCase
         $user->vote($channel);
         self::assertTrue($user->hasVoted($channel));
         $user->cancelVote($channel);
-        $user->load('votes');
+        $user->load('voterVotes');
         self::assertFalse($user->hasVoted($channel));
     }
 
@@ -109,7 +109,7 @@ class VoterTest extends TestCase
         $user->vote($channel);
         self::assertTrue($user->hasUpvoted($channel));
         $user->cancelVote($channel);
-        $user->load('votes');
+        $user->load('voterVotes');
         self::assertFalse($user->hasUpvoted($channel));
     }
 
@@ -120,7 +120,7 @@ class VoterTest extends TestCase
         $user->downvote($channel);
         self::assertTrue($user->hasDownvoted($channel));
         $user->cancelVote($channel);
-        $user->load('votes');
+        $user->load('voterVotes');
         self::assertFalse($user->hasDownvoted($channel));
     }
 
