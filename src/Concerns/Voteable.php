@@ -163,17 +163,17 @@ trait Voteable
 
     public function votersCountForHumans($precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
     {
-        return Interaction::numberForHuman($this->votersCount(), $precision, $mode, $divisors ?? config('vote.divisors'));
+        return Interaction::numberForHumans($this->votersCount(), $precision, $mode, $divisors ?? config('vote.divisors'));
     }
 
     public function upvotersCountForHumans($precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
     {
-        return Interaction::numberForHuman($this->upvotersCount(), $precision, $mode, $divisors ?? config('vote.divisors'));
+        return Interaction::numberForHumans($this->upvotersCount(), $precision, $mode, $divisors ?? config('vote.divisors'));
     }
 
     public function downvotersCountForHumans($precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
     {
-        return Interaction::numberForHuman($this->downvotersCount(), $precision, $mode, $divisors ?? config('vote.divisors'));
+        return Interaction::numberForHumans($this->downvotersCount(), $precision, $mode, $divisors ?? config('vote.divisors'));
     }
 
     public function scopeWhereVotedBy(Builder $query, Model $user): Builder
