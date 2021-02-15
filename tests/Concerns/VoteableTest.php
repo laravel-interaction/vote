@@ -7,7 +7,6 @@ namespace LaravelInteraction\Vote\Tests\Concerns;
 use LaravelInteraction\Vote\Tests\Models\Channel;
 use LaravelInteraction\Vote\Tests\Models\User;
 use LaravelInteraction\Vote\Tests\TestCase;
-use Mockery;
 
 class VoteableTest extends TestCase
 {
@@ -84,75 +83,43 @@ class VoteableTest extends TestCase
         self::assertSame(0, $model->downvotersCount());
     }
 
-    public function data(): array
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel|string $modelClass
+     */
+    public function testVotersCountForHumans(string $modelClass): void
     {
-        return [
-            [0, '0', '0', '0'],
-            [1, '1', '1', '1'],
-            [12, '12', '12', '12'],
-            [123, '123', '123', '123'],
-            [12345, '12.3K', '12.35K', '12.34K'],
-            [1234567, '1.2M', '1.23M', '1.23M'],
-            [123456789, '123.5M', '123.46M', '123.46M'],
-            [12345678901, '12.3B', '12.35B', '12.35B'],
-            [1234567890123, '1.2T', '1.23T', '1.23T'],
-            [1234567890123456, '1.2Qa', '1.23Qa', '1.23Qa'],
-            [1234567890123456789, '1.2Qi', '1.23Qi', '1.23Qi'],
-        ];
+        $user = User::query()->create();
+        $model = $modelClass::query()->create();
+        $user->vote($model);
+        self::assertSame('1', $model->votersCountForHumans());
     }
 
     /**
-     * @dataProvider data
+     * @dataProvider modelClasses
      *
-     * @param mixed $actual
-     * @param mixed $onePrecision
-     * @param mixed $twoPrecision
-     * @param mixed $halfDown
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel|string $modelClass
      */
-    public function testVotersCountForHumans($actual, $onePrecision, $twoPrecision, $halfDown): void
+    public function testUpvotersCountForHumans(string $modelClass): void
     {
-        $channel = Mockery::mock(Channel::class);
-        $channel->shouldReceive('votersCountForHumans')->passthru();
-        $channel->shouldReceive('votersCount')->andReturn($actual);
-        self::assertSame($onePrecision, $channel->votersCountForHumans());
-        self::assertSame($twoPrecision, $channel->votersCountForHumans(2));
-        self::assertSame($halfDown, $channel->votersCountForHumans(2, PHP_ROUND_HALF_DOWN));
+        $user = User::query()->create();
+        $model = $modelClass::query()->create();
+        $user->upvote($model);
+        self::assertSame('1', $model->upvotersCountForHumans());
     }
 
     /**
-     * @dataProvider data
+     * @dataProvider modelClasses
      *
-     * @param mixed $actual
-     * @param mixed $onePrecision
-     * @param mixed $twoPrecision
-     * @param mixed $halfDown
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel|string $modelClass
      */
-    public function testUpvotersCountForHumans($actual, $onePrecision, $twoPrecision, $halfDown): void
+    public function testDownvotersCountForHumans(string $modelClass): void
     {
-        $channel = Mockery::mock(Channel::class);
-        $channel->shouldReceive('upvotersCountForHumans')->passthru();
-        $channel->shouldReceive('upvotersCount')->andReturn($actual);
-        self::assertSame($onePrecision, $channel->upvotersCountForHumans());
-        self::assertSame($twoPrecision, $channel->upvotersCountForHumans(2));
-        self::assertSame($halfDown, $channel->upvotersCountForHumans(2, PHP_ROUND_HALF_DOWN));
-    }
-
-    /**
-     * @dataProvider data
-     *
-     * @param mixed $actual
-     * @param mixed $onePrecision
-     * @param mixed $twoPrecision
-     * @param mixed $halfDown
-     */
-    public function testDownvotersCountForHumans($actual, $onePrecision, $twoPrecision, $halfDown): void
-    {
-        $channel = Mockery::mock(Channel::class);
-        $channel->shouldReceive('downvotersCountForHumans')->passthru();
-        $channel->shouldReceive('downvotersCount')->andReturn($actual);
-        self::assertSame($onePrecision, $channel->downvotersCountForHumans());
-        self::assertSame($twoPrecision, $channel->downvotersCountForHumans(2));
-        self::assertSame($halfDown, $channel->downvotersCountForHumans(2, PHP_ROUND_HALF_DOWN));
+        $user = User::query()->create();
+        $model = $modelClass::query()->create();
+        $user->downvote($model);
+        self::assertSame('1', $model->downvotersCountForHumans());
     }
 
     /**

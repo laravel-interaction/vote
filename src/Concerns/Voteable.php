@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use LaravelInteraction\Support\Interaction;
 use function is_a;
 
 /**
@@ -162,33 +163,17 @@ trait Voteable
 
     public function votersCountForHumans($precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
     {
-        return $this->countForHuman($this->votersCount(), $precision, $mode, $divisors);
+        return Interaction::numberForHumans($this->votersCount(), $precision, $mode, $divisors ?? config('vote.divisors'));
     }
 
     public function upvotersCountForHumans($precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
     {
-        return $this->countForHuman($this->upvotersCount(), $precision, $mode, $divisors);
+        return Interaction::numberForHumans($this->upvotersCount(), $precision, $mode, $divisors ?? config('vote.divisors'));
     }
 
     public function downvotersCountForHumans($precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
     {
-        return $this->countForHuman($this->downvotersCount(), $precision, $mode, $divisors);
-    }
-
-    protected function countForHuman(int $number, $precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
-    {
-        $divisors = collect($divisors ?? config('vote.divisors'));
-        $divisor = $divisors->keys()->filter(
-            function ($divisor) use ($number) {
-                return $divisor <= abs($number);
-            }
-        )->last(null, 1);
-
-        if ($divisor === 1) {
-            return (string) $number;
-        }
-
-        return number_format(round($number / $divisor, $precision, $mode), $precision) . $divisors->get($divisor);
+        return Interaction::numberForHumans($this->downvotersCount(), $precision, $mode, $divisors ?? config('vote.divisors'));
     }
 
     public function scopeWhereVotedBy(Builder $query, Model $user): Builder

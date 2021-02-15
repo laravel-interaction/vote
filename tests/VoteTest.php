@@ -79,4 +79,14 @@ class VoteTest extends TestCase
         self::assertFalse($this->vote->isVotedBy($this->channel));
         self::assertTrue($this->vote->isVotedBy($this->user));
     }
+
+    public function testIsUpvote()
+    {
+        self::assertTrue($this->vote->isUpvote());
+    }
+
+    public function testIsDownvote()
+    {
+        self::assertFalse($this->vote->isDownvote());
+    }
 }
