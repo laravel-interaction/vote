@@ -47,8 +47,6 @@ trait Voter
 
     /**
      * @param \Illuminate\Database\Eloquent\Model $object
-     *
-     * @throws \Exception
      */
     public function upvote(Model $object): void
     {
@@ -57,8 +55,6 @@ trait Voter
 
     /**
      * @param \Illuminate\Database\Eloquent\Model $object
-     *
-     * @throws \Exception
      */
     public function downvote(Model $object): void
     {
@@ -67,8 +63,6 @@ trait Voter
 
     /**
      * @param \Illuminate\Database\Eloquent\Model $object
-     *
-     * @throws \Exception
      */
     public function cancelVote(Model $object): void
     {
