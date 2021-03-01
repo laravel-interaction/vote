@@ -5,9 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+<!-- changelog-linker -->
+
 ## Unreleased
 
-<!-- changelog-linker -->
+### Changed
+
+- [#9] Use support package for numberForHumans
+
+### Removed
+
+- [#10] Remove redundant docblock annotations
+
+## [0.1.0] - 2021-02-13
 
 ### Changed
 
@@ -42,3 +52,5 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [#7]: https://github.com/laravel-interaction/vote/pull/7
 [#6]: https://github.com/laravel-interaction/vote/pull/6
 [0.0.2]: https://github.com/laravel-interaction/vote/compare/0.0.1...0.0.2
+[#10]: https://github.com/laravel-interaction/vote/pull/10
+[#9]: https://github.com/laravel-interaction/vote/pull/9
