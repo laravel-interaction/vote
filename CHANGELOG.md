@@ -7,7 +7,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!-- changelog-linker -->
 
-## Unreleased
+## [0.2.0] - 2021-03-01
 
 ### Changed
 
@@ -41,16 +41,16 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - [#2] Remove duplicate keywords
 
-[#2]: https://github.com/laravel-interaction/vote/pull/2
-
-[#5]: https://github.com/laravel-interaction/vote/pull/5
-
-[#4]: https://github.com/laravel-interaction/vote/pull/4
-
-[#3]: https://github.com/laravel-interaction/vote/pull/3
+[#11]: https://github.com/laravel-interaction/vote/pull/11
+[#10]: https://github.com/laravel-interaction/vote/pull/10
+[#9]: https://github.com/laravel-interaction/vote/pull/9
 [#8]: https://github.com/laravel-interaction/vote/pull/8
 [#7]: https://github.com/laravel-interaction/vote/pull/7
 [#6]: https://github.com/laravel-interaction/vote/pull/6
+[#5]: https://github.com/laravel-interaction/vote/pull/5
+[#4]: https://github.com/laravel-interaction/vote/pull/4
+[#3]: https://github.com/laravel-interaction/vote/pull/3
+[#2]: https://github.com/laravel-interaction/vote/pull/2
+[0.2.0]: https://github.com/laravel-interaction/vote/compare/0.1.0...0.2.0
+[0.1.0]: https://github.com/laravel-interaction/vote/compare/0.0.2...0.1.0
 [0.0.2]: https://github.com/laravel-interaction/vote/compare/0.0.1...0.0.2
-[#10]: https://github.com/laravel-interaction/vote/pull/10
-[#9]: https://github.com/laravel-interaction/vote/pull/9
