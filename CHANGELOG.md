@@ -7,6 +7,18 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!-- changelog-linker -->
 
+## [0.2.1] - 2021-03-12
+
+### Removed
+
+- [#12] Remove kodiak and enable github auto-merge
+
+## Unreleased
+
+### Changed
+
+- [#11] Bump codecov/codecov-action from v1.2.1 to v1.2.2
+
 ## [0.2.0] - 2021-03-01
 
 ### Changed
@@ -54,3 +66,5 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [0.2.0]: https://github.com/laravel-interaction/vote/compare/0.1.0...0.2.0
 [0.1.0]: https://github.com/laravel-interaction/vote/compare/0.0.2...0.1.0
 [0.0.2]: https://github.com/laravel-interaction/vote/compare/0.0.1...0.0.2
+[#12]: https://github.com/laravel-interaction/vote/pull/12
+[0.2.1]: https://github.com/laravel-interaction/vote/compare/0.2.0...0.2.1
