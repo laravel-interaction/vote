@@ -19,6 +19,9 @@ use function is_a;
  * @property-read string|int|null $voters_count
  * @property-read string|int|null $upvoters_count
  * @property-read string|int|null $downvoters_count
+ * @property string|int|null $voteable_votes_sum_votes
+ * @property string|int|null $voteable_votes_sum_upvotes
+ * @property string|int|null $voteable_votes_sum_downvotes
  *
  * @method static static|\Illuminate\Database\Eloquent\Builder whereVotedBy(\Illuminate\Database\Eloquent\Model $user)
  * @method static static|\Illuminate\Database\Eloquent\Builder whereNotVotedBy(\Illuminate\Database\Eloquent\Model $user)
@@ -32,7 +35,7 @@ trait Voteable
     public function downvoters(): MorphToMany
     {
         return $this->voters()
-            ->wherePivot('upvote', false);
+            ->wherePivot('votes', '<', 0);
     }
 
     public function downvotersCount(): int
@@ -70,7 +73,7 @@ trait Voteable
 
         return ($this->relationLoaded('votes') ? $this->voteableVotes : $this->voteableVotes())
             ->where(config('vote.column_names.user_foreign_key'), $user->getKey())
-            ->where('upvote', false)
+            ->where('votes', '<', 0)
             ->count() > 0;
     }
 
@@ -103,7 +106,7 @@ trait Voteable
 
         return ($this->relationLoaded('voteableVotes') ? $this->voteableVotes : $this->voteableVotes())
             ->where(config('vote.column_names.user_foreign_key'), $user->getKey())
-            ->where('upvote', true)
+            ->where('votes', '>', 0)
             ->count() > 0;
     }
 
@@ -192,7 +195,7 @@ trait Voteable
     public function upvoters(): MorphToMany
     {
         return $this->voters()
-            ->wherePivot('upvote', true);
+            ->wherePivot('votes', '>', 0);
     }
 
     public function upvotersCount(): int
@@ -236,7 +239,7 @@ trait Voteable
             null,
             config('vote.column_names.user_foreign_key')
         )->withTimestamps()
-            ->withPivot('upvote');
+            ->withPivot('votes');
     }
 
     public function votersCount(): int
@@ -263,5 +266,123 @@ trait Voteable
     protected function isVoter($user): bool
     {
         return is_a($user, config('vote.models.user'));
+    }
+
+    public function sumVotes(): int
+    {
+        if (array_key_exists('voteable_votes_sum_votes', $this->getAttributes())) {
+            return (int) $this->voteable_votes_sum_votes;
+        }
+
+        $this->loadSumVotes();
+
+        return (int) $this->voteable_votes_sum_votes;
+    }
+
+    /**
+     * @return $this
+     */
+    public function loadSumVotes()
+    {
+        if (method_exists($this, 'loadSum')) {
+            $this->loadSum('voteableVotes', 'votes');
+        } else {
+            $this->voteable_votes_sum_votes = $this->voteableVotes()
+                ->sum('votes');
+        }
+
+        return $this;
+    }
+
+    public function sumVotesForHumans($precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
+    {
+        return Interaction::numberForHumans(
+            $this->sumVotes(),
+            $precision,
+            $mode,
+            $divisors ?? config('vote.divisors')
+        );
+    }
+
+    public function sumUpvotes(): int
+    {
+        if (array_key_exists('voteable_votes_sum_upvotes', $this->getAttributes())) {
+            return (int) $this->voteable_votes_sum_upvotes;
+        }
+
+        $this->loadSumUpvotes();
+
+        return (int) $this->voteable_votes_sum_upvotes;
+    }
+
+    /**
+     * @return $this
+     */
+    public function loadSumUpvotes()
+    {
+        if (method_exists($this, 'loadSum')) {
+            $this->loadSum([
+                'voteableVotes as voteable_votes_sum_upvotes' => function ($query) {
+                    return $query->where('votes', '>', 0);
+                },
+            ], 'votes');
+        } else {
+            $this->voteable_votes_sum_upvotes = $this->voteableVotes()
+                ->where('votes', '>', 0)
+                ->sum('votes');
+        }
+
+        return $this;
+    }
+
+    public function sumUpvotesForHumans($precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
+    {
+        return Interaction::numberForHumans(
+            $this->sumUpvotes(),
+            $precision,
+            $mode,
+            $divisors ?? config('vote.divisors')
+        );
+    }
+
+    public function sumDownvotes(): int
+    {
+        if (array_key_exists('voteable_votes_sum_downvotes', $this->getAttributes())) {
+            return (int) $this->voteable_votes_sum_downvotes;
+        }
+
+        $this->loadSumDownvotes();
+
+        return (int) $this->voteable_votes_sum_downvotes;
+    }
+
+    /**
+     * @return $this
+     */
+    public function loadSumDownvotes()
+    {
+        if (method_exists($this, 'loadSum')) {
+            $this->loadSum([
+                'voteableVotes as voteable_votes_sum_downvotes' => function ($query) {
+                    return $query->where('votes', '<', 0);
+                },
+            ], 'votes');
+        } else {
+            $this->voteable_votes_sum_downvotes = $this->voteableVotes()
+                ->where('votes', '<', 0)
+                ->sum('votes');
+        }
+
+        return $this;
+    }
+
+    public function sumDownvotesForHumans($precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
+    {
+        return Interaction::numberForHumans(
+            $this->sumDownvotes(),
+            $precision,
+            $mode,
+            $divisors ?? config('vote.divisors')
+        );
     }
 }

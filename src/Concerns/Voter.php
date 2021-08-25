@@ -40,9 +40,9 @@ trait Voter
      *
      * @return \LaravelInteraction\Vote\Vote
      */
-    public function downvote(Model $object): Vote
+    public function downvote(Model $object, int $votes = 1): Vote
     {
-        return $this->vote($object, false);
+        return $this->vote($object, -abs($votes));
     }
 
     /**
@@ -55,7 +55,7 @@ trait Voter
         return ($this->relationLoaded('voterVotes') ? $this->voterVotes : $this->voterVotes())
             ->where('voteable_id', $object->getKey())
             ->where('voteable_type', $object->getMorphClass())
-            ->where('upvote', false)
+            ->where('votes', '<', 0)
             ->count() > 0;
     }
 
@@ -84,7 +84,7 @@ trait Voter
         return ($this->relationLoaded('voterVotes') ? $this->voterVotes : $this->voterVotes())
             ->where('voteable_id', $object->getKey())
             ->where('voteable_type', $object->getMorphClass())
-            ->where('upvote', true)
+            ->where('votes', '>', 0)
             ->count() > 0;
     }
 
@@ -106,25 +106,25 @@ trait Voter
      *
      * @return \LaravelInteraction\Vote\Vote
      */
-    public function upvote(Model $object): Vote
+    public function upvote(Model $object, int $votes = 1): Vote
     {
-        return $this->vote($object);
+        return $this->vote($object, abs($votes));
     }
 
     /**
      * @param \Illuminate\Database\Eloquent\Model $object
-     * @param bool $upvote
+     * @param int $votes
      *
      * @return \LaravelInteraction\Vote\Vote
      */
-    public function vote(Model $object, $upvote = true): Vote
+    public function vote(Model $object, int $votes = 1): Vote
     {
         $attributes = [
             'voteable_id' => $object->getKey(),
             'voteable_type' => $object->getMorphClass(),
         ];
         $values = [
-            'upvote' => $upvote,
+            'votes' => $votes,
         ];
         $vote = $this->voterVotes()
             ->where($attributes)
@@ -161,7 +161,7 @@ trait Voter
     protected function downvotedItems(string $class): MorphToMany
     {
         return $this->votedItems($class)
-            ->wherePivot('upvote', false);
+            ->wherePivot('votes', '<', 0);
     }
 
     /**
@@ -172,7 +172,7 @@ trait Voter
     protected function upvotedItems(string $class): MorphToMany
     {
         return $this->votedItems($class)
-            ->wherePivot('upvote', true);
+            ->wherePivot('votes', '>', 0);
     }
 
     /**
@@ -189,6 +189,6 @@ trait Voter
             config('vote.column_names.user_foreign_key')
         )
             ->withTimestamps()
-            ->withPivot('upvote');
+            ->withPivot('votes');
     }
 }

@@ -376,4 +376,101 @@ class VoteableTest extends TestCase
         );
         self::assertSame($modelClass::query()->count(), $modelClass::query()->whereNotDownvotedBy($other)->count());
     }
+
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel $modelClass
+     */
+    public function testSumVotes($modelClass): void
+    {
+        $user = User::query()->create();
+        $other = User::query()->create();
+        $model = $modelClass::query()->create();
+        $user->vote($model);
+        self::assertSame(1, $model->sumVotes());
+        $user->cancelVote($model);
+        self::assertSame(1, $model->sumVotes());
+        $model->loadSumVotes();
+        self::assertSame(0, $model->sumVotes());
+        $user->upvote($model, 3);
+        $model->loadSumVotes();
+        self::assertSame(3, $model->sumVotes());
+        $other->downvote($model, 2);
+        $model->loadSumVotes();
+        self::assertSame(1, $model->sumVotes());
+    }
+
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel $modelClass
+     */
+    public function testSumUpvotes($modelClass): void
+    {
+        $user = User::query()->create();
+        $model = $modelClass::query()->create();
+        $user->upvote($model);
+        self::assertSame(1, $model->sumUpvotes());
+        $user->cancelVote($model);
+        self::assertSame(1, $model->sumUpvotes());
+        $model->loadSumUpvotes();
+        self::assertSame(0, $model->sumUpvotes());
+    }
+
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel $modelClass
+     */
+    public function testSumDownvotes($modelClass): void
+    {
+        $user = User::query()->create();
+        $model = $modelClass::query()->create();
+        $user->downvote($model);
+        self::assertSame(-1, $model->sumDownvotes());
+        $user->cancelVote($model);
+        self::assertSame(-1, $model->sumDownvotes());
+        $model->loadSumDownvotes();
+        self::assertSame(0, $model->sumDownvotes());
+    }
+
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel $modelClass
+     */
+    public function testSumVotesForHumans($modelClass): void
+    {
+        $user = User::query()->create();
+        $model = $modelClass::query()->create();
+        $user->vote($model);
+        self::assertSame('1', $model->sumVotesForHumans());
+    }
+
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel $modelClass
+     */
+    public function testSumUpvotesForHumans($modelClass): void
+    {
+        $user = User::query()->create();
+        $model = $modelClass::query()->create();
+        $user->upvote($model);
+        self::assertSame('1', $model->sumUpvotesForHumans());
+    }
+
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel $modelClass
+     */
+    public function testSumDownvotesForHumans($modelClass): void
+    {
+        $user = User::query()->create();
+        $model = $modelClass::query()->create();
+        $user->downvote($model);
+        self::assertSame('-1', $model->sumDownvotesForHumans());
+    }
 }

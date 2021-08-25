@@ -19,7 +19,7 @@ class CreateVotesTable extends Migration
                 config('vote.uuids') ? $table->uuid('uuid') : $table->bigIncrements('id');
                 $table->unsignedBigInteger(config('vote.column_names.user_foreign_key'))->index()->comment('user_id');
                 $table->morphs('voteable');
-                $table->boolean('upvote')->default(true);
+                $table->integer('votes')->default(0);
                 $table->timestamps();
                 $table->unique([config('vote.column_names.user_foreign_key'), 'voteable_type', 'voteable_id']);
             }

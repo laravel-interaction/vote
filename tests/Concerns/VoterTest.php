@@ -41,7 +41,7 @@ class VoterTest extends TestCase
                 'user_id' => $user->getKey(),
                 'voteable_type' => $channel->getMorphClass(),
                 'voteable_id' => $channel->getKey(),
-                'upvote' => true,
+                'votes' => 1,
             ]
         );
     }
@@ -57,7 +57,7 @@ class VoterTest extends TestCase
                 'user_id' => $user->getKey(),
                 'voteable_type' => $channel->getMorphClass(),
                 'voteable_id' => $channel->getKey(),
-                'upvote' => false,
+                'votes' => -1,
             ]
         );
     }
