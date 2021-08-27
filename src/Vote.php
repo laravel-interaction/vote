@@ -93,20 +93,11 @@ class Vote extends MorphPivot
         return $object->is($this->voteable);
     }
 
-    /**
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string $type
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
     public function scopeWithType(Builder $query, string $type): Builder
     {
         return $query->where('voteable_type', app($type)->getMorphClass());
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(config('vote.models.user'), config('vote.column_names.user_foreign_key'));
@@ -117,17 +108,11 @@ class Vote extends MorphPivot
         return (bool) config('vote.uuids');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
-     */
     public function voteable(): MorphTo
     {
         return $this->morphTo();
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function voter(): BelongsTo
     {
         return $this->user();

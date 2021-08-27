@@ -15,11 +15,6 @@ use LaravelInteraction\Vote\Vote;
  */
 trait Voter
 {
-    /**
-     * @param \Illuminate\Database\Eloquent\Model $object
-     *
-     * @return bool
-     */
     public function cancelVote(Model $object): bool
     {
         $hasNotVoted = $this->hasNotVoted($object);
@@ -35,21 +30,11 @@ trait Voter
             ->detach($object->getKey());
     }
 
-    /**
-     * @param \Illuminate\Database\Eloquent\Model $object
-     *
-     * @return \LaravelInteraction\Vote\Vote
-     */
     public function downvote(Model $object, int $votes = 1): Vote
     {
         return $this->vote($object, -abs($votes));
     }
 
-    /**
-     * @param \Illuminate\Database\Eloquent\Model $object
-     *
-     * @return bool
-     */
     public function hasDownvoted(Model $object): bool
     {
         return ($this->relationLoaded('voterVotes') ? $this->voterVotes : $this->voterVotes())
@@ -74,11 +59,6 @@ trait Voter
         return ! $this->hasVoted($object);
     }
 
-    /**
-     * @param \Illuminate\Database\Eloquent\Model $object
-     *
-     * @return bool
-     */
     public function hasUpvoted(Model $object): bool
     {
         return ($this->relationLoaded('voterVotes') ? $this->voterVotes : $this->voterVotes())
@@ -88,11 +68,6 @@ trait Voter
             ->count() > 0;
     }
 
-    /**
-     * @param \Illuminate\Database\Eloquent\Model $object
-     *
-     * @return bool
-     */
     public function hasVoted(Model $object): bool
     {
         return ($this->relationLoaded('voterVotes') ? $this->voterVotes : $this->voterVotes())
@@ -101,22 +76,11 @@ trait Voter
             ->count() > 0;
     }
 
-    /**
-     * @param \Illuminate\Database\Eloquent\Model $object
-     *
-     * @return \LaravelInteraction\Vote\Vote
-     */
     public function upvote(Model $object, int $votes = 1): Vote
     {
         return $this->vote($object, abs($votes));
     }
 
-    /**
-     * @param \Illuminate\Database\Eloquent\Model $object
-     * @param int $votes
-     *
-     * @return \LaravelInteraction\Vote\Vote
-     */
     public function vote(Model $object, int $votes = 1): Vote
     {
         $attributes = [
@@ -141,9 +105,6 @@ trait Voter
         return $vote;
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function voterVotes(): HasMany
     {
         return $this->hasMany(
@@ -153,33 +114,18 @@ trait Voter
         );
     }
 
-    /**
-     * @param string $class
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
     protected function downvotedItems(string $class): MorphToMany
     {
         return $this->votedItems($class)
             ->wherePivot('votes', '<', 0);
     }
 
-    /**
-     * @param string $class
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
     protected function upvotedItems(string $class): MorphToMany
     {
         return $this->votedItems($class)
             ->wherePivot('votes', '>', 0);
     }
 
-    /**
-     * @param string $class
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
     protected function votedItems(string $class): MorphToMany
     {
         return $this->morphedByMany(

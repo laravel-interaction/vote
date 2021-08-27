@@ -110,11 +110,6 @@ trait Voteable
             ->count() > 0;
     }
 
-    /**
-     * @param \Illuminate\Database\Eloquent\Model $user
-     *
-     * @return bool
-     */
     public function isVotedBy(Model $user): bool
     {
         $isVoter = $this->isVoter($user);
@@ -219,17 +214,11 @@ trait Voteable
         );
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     */
     public function voteableVotes(): MorphMany
     {
         return $this->morphMany(config('vote.models.vote'), 'voteable');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
     public function voters(): MorphToMany
     {
         return $this->morphToMany(
