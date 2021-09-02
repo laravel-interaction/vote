@@ -65,6 +65,7 @@ trait Voteable
         if (! $isVoter) {
             return false;
         }
+
         $downvotersLoaded = $this->relationLoaded('downvoters');
 
         if ($downvotersLoaded) {
@@ -98,6 +99,7 @@ trait Voteable
         if (! $isVoter) {
             return false;
         }
+
         $upvotersLoaded = $this->relationLoaded('upvoters');
 
         if ($upvotersLoaded) {
@@ -116,6 +118,7 @@ trait Voteable
         if (! $isVoter) {
             return false;
         }
+
         $votersLoaded = $this->relationLoaded('voters');
 
         if ($votersLoaded) {

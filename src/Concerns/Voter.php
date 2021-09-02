@@ -21,6 +21,7 @@ trait Voter
         if ($hasNotVoted) {
             return true;
         }
+
         $voterVotesLoaded = $this->relationLoaded('voterVotes');
         if ($voterVotesLoaded) {
             $this->unsetRelation('voterVotes');
@@ -99,6 +100,7 @@ trait Voter
             if ($voterVotesLoaded) {
                 $this->unsetRelation('voterVotes');
             }
+
             $vote->save();
         }
 
