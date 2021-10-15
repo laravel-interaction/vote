@@ -49,8 +49,11 @@ trait Voteable
         return (int) $this->downvoters_count;
     }
 
-    public function downvotersCountForHumans($precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
-    {
+    public function downvotersCountForHumans(
+        int $precision = 1,
+        int $mode = PHP_ROUND_HALF_UP,
+        $divisors = null
+    ): string {
         return Interaction::numberForHumans(
             $this->downvotersCount(),
             $precision,
@@ -134,7 +137,7 @@ trait Voteable
     {
         return $query->whereHas(
             'downvoters',
-            function (Builder $query) use ($user) {
+            function (Builder $query) use ($user): \Illuminate\Database\Eloquent\Builder {
                 return $query->whereKey($user->getKey());
             }
         );
@@ -144,7 +147,7 @@ trait Voteable
     {
         return $query->whereDoesntHave(
             'downvoters',
-            function (Builder $query) use ($user) {
+            function (Builder $query) use ($user): \Illuminate\Database\Eloquent\Builder {
                 return $query->whereKey($user->getKey());
             }
         );
@@ -154,7 +157,7 @@ trait Voteable
     {
         return $query->whereDoesntHave(
             'upvoters',
-            function (Builder $query) use ($user) {
+            function (Builder $query) use ($user): \Illuminate\Database\Eloquent\Builder {
                 return $query->whereKey($user->getKey());
             }
         );
@@ -164,7 +167,7 @@ trait Voteable
     {
         return $query->whereDoesntHave(
             'voters',
-            function (Builder $query) use ($user) {
+            function (Builder $query) use ($user): \Illuminate\Database\Eloquent\Builder {
                 return $query->whereKey($user->getKey());
             }
         );
@@ -174,7 +177,7 @@ trait Voteable
     {
         return $query->whereHas(
             'upvoters',
-            function (Builder $query) use ($user) {
+            function (Builder $query) use ($user): \Illuminate\Database\Eloquent\Builder {
                 return $query->whereKey($user->getKey());
             }
         );
@@ -184,7 +187,7 @@ trait Voteable
     {
         return $query->whereHas(
             'voters',
-            function (Builder $query) use ($user) {
+            function (Builder $query) use ($user): \Illuminate\Database\Eloquent\Builder {
                 return $query->whereKey($user->getKey());
             }
         );
@@ -207,7 +210,7 @@ trait Voteable
         return (int) $this->upvoters_count;
     }
 
-    public function upvotersCountForHumans($precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
+    public function upvotersCountForHumans(int $precision = 1, int $mode = PHP_ROUND_HALF_UP, $divisors = null): string
     {
         return Interaction::numberForHumans(
             $this->upvotersCount(),
@@ -245,7 +248,7 @@ trait Voteable
         return (int) $this->voters_count;
     }
 
-    public function votersCountForHumans($precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
+    public function votersCountForHumans(int $precision = 1, int $mode = PHP_ROUND_HALF_UP, $divisors = null): string
     {
         return Interaction::numberForHumans(
             $this->votersCount(),
@@ -286,7 +289,7 @@ trait Voteable
         return $this;
     }
 
-    public function sumVotesForHumans($precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
+    public function sumVotesForHumans(int $precision = 1, int $mode = PHP_ROUND_HALF_UP, $divisors = null): string
     {
         return Interaction::numberForHumans(
             $this->sumVotes(),
@@ -327,7 +330,7 @@ trait Voteable
         return $this;
     }
 
-    public function sumUpvotesForHumans($precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
+    public function sumUpvotesForHumans(int $precision = 1, int $mode = PHP_ROUND_HALF_UP, $divisors = null): string
     {
         return Interaction::numberForHumans(
             $this->sumUpvotes(),
@@ -368,7 +371,7 @@ trait Voteable
         return $this;
     }
 
-    public function sumDownvotesForHumans($precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
+    public function sumDownvotesForHumans(int $precision = 1, int $mode = PHP_ROUND_HALF_UP, $divisors = null): string
     {
         return Interaction::numberForHumans(
             $this->sumDownvotes(),

@@ -9,7 +9,10 @@ use LaravelInteraction\Vote\Tests\Models\User;
 use LaravelInteraction\Vote\Tests\TestCase;
 use LaravelInteraction\Vote\Vote;
 
-class UuidsTest extends TestCase
+/**
+ * @internal
+ */
+final class UuidsTest extends TestCase
 {
     protected function getEnvironmentSetUp($app): void
     {

@@ -26,10 +26,16 @@ use LaravelInteraction\Vote\Events\Voted;
  */
 class Vote extends MorphPivot
 {
+    /**
+     * @var array<string, string>
+     */
     protected $casts = [
         'upvote' => 'bool',
     ];
 
+    /**
+     * @var array<string, class-string<\LaravelInteraction\Vote\Events\VoteCanceled>>|array<string, class-string<\LaravelInteraction\Vote\Events\Voted>>
+     */
     protected $dispatchesEvents = [
         'created' => Voted::class,
         'updated' => Voted::class,
@@ -49,6 +55,9 @@ class Vote extends MorphPivot
         );
     }
 
+    /**
+     * @var bool
+     */
     public $incrementing = true;
 
     public function getIncrementing(): bool

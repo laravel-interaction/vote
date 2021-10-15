@@ -10,7 +10,10 @@ use LaravelInteraction\Vote\Tests\Models\Channel;
 use LaravelInteraction\Vote\Tests\Models\User;
 use LaravelInteraction\Vote\Tests\TestCase;
 
-class VoteCanceledTest extends TestCase
+/**
+ * @internal
+ */
+final class VoteCanceledTest extends TestCase
 {
     public function testCancelVote(): void
     {

@@ -10,7 +10,10 @@ use LaravelInteraction\Vote\Tests\Models\Channel;
 use LaravelInteraction\Vote\Tests\Models\User;
 use LaravelInteraction\Vote\Tests\TestCase;
 
-class VotedTest extends TestCase
+/**
+ * @internal
+ */
+final class VotedTest extends TestCase
 {
     public function testVote(): void
     {

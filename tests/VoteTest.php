@@ -9,22 +9,25 @@ use LaravelInteraction\Vote\Tests\Models\Channel;
 use LaravelInteraction\Vote\Tests\Models\User;
 use LaravelInteraction\Vote\Vote;
 
-class VoteTest extends TestCase
+/**
+ * @internal
+ */
+final class VoteTest extends TestCase
 {
     /**
      * @var \LaravelInteraction\Vote\Tests\Models\User
      */
-    protected $user;
+    private $user;
 
     /**
      * @var \LaravelInteraction\Vote\Tests\Models\Channel
      */
-    protected $channel;
+    private $channel;
 
     /**
      * @var \LaravelInteraction\Vote\Vote
      */
-    protected $vote;
+    private $vote;
 
     protected function setUp(): void
     {
