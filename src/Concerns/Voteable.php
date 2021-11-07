@@ -137,7 +137,7 @@ trait Voteable
     {
         return $query->whereHas(
             'downvoters',
-            function (Builder $query) use ($user): \Illuminate\Database\Eloquent\Builder {
+            function (Builder $query) use ($user): Builder {
                 return $query->whereKey($user->getKey());
             }
         );
@@ -147,7 +147,7 @@ trait Voteable
     {
         return $query->whereDoesntHave(
             'downvoters',
-            function (Builder $query) use ($user): \Illuminate\Database\Eloquent\Builder {
+            function (Builder $query) use ($user): Builder {
                 return $query->whereKey($user->getKey());
             }
         );
@@ -157,7 +157,7 @@ trait Voteable
     {
         return $query->whereDoesntHave(
             'upvoters',
-            function (Builder $query) use ($user): \Illuminate\Database\Eloquent\Builder {
+            function (Builder $query) use ($user): Builder {
                 return $query->whereKey($user->getKey());
             }
         );
@@ -167,7 +167,7 @@ trait Voteable
     {
         return $query->whereDoesntHave(
             'voters',
-            function (Builder $query) use ($user): \Illuminate\Database\Eloquent\Builder {
+            function (Builder $query) use ($user): Builder {
                 return $query->whereKey($user->getKey());
             }
         );
@@ -177,7 +177,7 @@ trait Voteable
     {
         return $query->whereHas(
             'upvoters',
-            function (Builder $query) use ($user): \Illuminate\Database\Eloquent\Builder {
+            function (Builder $query) use ($user): Builder {
                 return $query->whereKey($user->getKey());
             }
         );
@@ -187,7 +187,7 @@ trait Voteable
     {
         return $query->whereHas(
             'voters',
-            function (Builder $query) use ($user): \Illuminate\Database\Eloquent\Builder {
+            function (Builder $query) use ($user): Builder {
                 return $query->whereKey($user->getKey());
             }
         );

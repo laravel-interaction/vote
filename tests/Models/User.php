@@ -14,8 +14,8 @@ use LaravelInteraction\Vote\Concerns\Voter;
  */
 class User extends Model
 {
-    use Voter;
     use Voteable;
+    use Voter;
 
     public function votedChannels(): MorphToMany
     {
