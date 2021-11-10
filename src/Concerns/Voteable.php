@@ -49,6 +49,9 @@ trait Voteable
         return (int) $this->downvoters_count;
     }
 
+    /**
+     * @param array<int, string>|null $divisors
+     */
     public function downvotersCountForHumans(
         int $precision = 1,
         int $mode = PHP_ROUND_HALF_UP,
@@ -210,6 +213,9 @@ trait Voteable
         return (int) $this->upvoters_count;
     }
 
+    /**
+     * @param array<int, string>|null $divisors
+     */
     public function upvotersCountForHumans(int $precision = 1, int $mode = PHP_ROUND_HALF_UP, $divisors = null): string
     {
         return Interaction::numberForHumans(
@@ -248,6 +254,9 @@ trait Voteable
         return (int) $this->voters_count;
     }
 
+    /**
+     * @param array<int, string>|null $divisors
+     */
     public function votersCountForHumans(int $precision = 1, int $mode = PHP_ROUND_HALF_UP, $divisors = null): string
     {
         return Interaction::numberForHumans(
@@ -258,6 +267,9 @@ trait Voteable
         );
     }
 
+    /**
+     * @param mixed $user
+     */
     protected function isVoter($user): bool
     {
         return is_a($user, config('vote.models.user'));
@@ -289,6 +301,9 @@ trait Voteable
         return $this;
     }
 
+    /**
+     * @param array<int, string>|null $divisors
+     */
     public function sumVotesForHumans(int $precision = 1, int $mode = PHP_ROUND_HALF_UP, $divisors = null): string
     {
         return Interaction::numberForHumans(
@@ -330,6 +345,9 @@ trait Voteable
         return $this;
     }
 
+    /**
+     * @param array<int, string>|null $divisors
+     */
     public function sumUpvotesForHumans(int $precision = 1, int $mode = PHP_ROUND_HALF_UP, $divisors = null): string
     {
         return Interaction::numberForHumans(
@@ -371,6 +389,9 @@ trait Voteable
         return $this;
     }
 
+    /**
+     * @param array<int, string>|null $divisors
+     */
     public function sumDownvotesForHumans(int $precision = 1, int $mode = PHP_ROUND_HALF_UP, $divisors = null): string
     {
         return Interaction::numberForHumans(
