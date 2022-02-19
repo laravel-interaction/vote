@@ -79,7 +79,7 @@ class Vote extends MorphPivot
         return $this->uuids() ? 'string' : parent::getKeyType();
     }
 
-    public function getTable()
+    public function getTable(): string
     {
         return config('vote.table_names.votes') ?: parent::getTable();
     }
