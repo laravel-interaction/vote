@@ -3,6 +3,11 @@
     "description": "User upvote/downvote behaviour for Laravel.",
     "keywords": ["laravel", "vote"],
     "license": "MIT",
+    "homepage": "https://github.com/laravel-interaction/vote",
+    "support": {
+        "issues": "https://github.com/laravel-interaction/vote/issues",
+        "source": "https://github.com/laravel-interaction/vote"
+    },
     "authors": [
         {
             "name": "zingimmick",
