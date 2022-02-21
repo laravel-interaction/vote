@@ -277,7 +277,7 @@ trait Voteable
 
     public function sumVotes(): int
     {
-        if (array_key_exists('voteable_votes_sum_votes', $this->getAttributes())) {
+        if (\array_key_exists('voteable_votes_sum_votes', $this->getAttributes())) {
             return (int) $this->voteable_votes_sum_votes;
         }
 
@@ -316,7 +316,7 @@ trait Voteable
 
     public function sumUpvotes(): int
     {
-        if (array_key_exists('voteable_votes_sum_upvotes', $this->getAttributes())) {
+        if (\array_key_exists('voteable_votes_sum_upvotes', $this->getAttributes())) {
             return (int) $this->voteable_votes_sum_upvotes;
         }
 
@@ -360,7 +360,7 @@ trait Voteable
 
     public function sumDownvotes(): int
     {
-        if (array_key_exists('voteable_votes_sum_downvotes', $this->getAttributes())) {
+        if (\array_key_exists('voteable_votes_sum_downvotes', $this->getAttributes())) {
             return (int) $this->voteable_votes_sum_downvotes;
         }
 
