@@ -394,18 +394,20 @@ final class VoteableTest extends TestCase
     {
         $user = User::query()->create();
         $other = User::query()->create();
+
+        /** @var \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel $model */
         $model = $modelClass::query()->create();
         $user->vote($model);
         self::assertSame(1, $model->sumVotes());
         $user->cancelVote($model);
         self::assertSame(1, $model->sumVotes());
-        $model->loadSumVotes();
+        $model->loadSum('voteableVotes', 'votes');
         self::assertSame(0, $model->sumVotes());
         $user->upvote($model, 3);
-        $model->loadSumVotes();
+        $model->loadSum('voteableVotes', 'votes');
         self::assertSame(3, $model->sumVotes());
         $other->downvote($model, 2);
-        $model->loadSumVotes();
+        $model->loadSum('voteableVotes', 'votes');
         self::assertSame(1, $model->sumVotes());
     }
 
@@ -417,12 +419,18 @@ final class VoteableTest extends TestCase
     public function testSumUpvotes($modelClass): void
     {
         $user = User::query()->create();
+
+        /** @var \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel $model */
         $model = $modelClass::query()->create();
         $user->upvote($model);
         self::assertSame(1, $model->sumUpvotes());
         $user->cancelVote($model);
         self::assertSame(1, $model->sumUpvotes());
-        $model->loadSumUpvotes();
+        $model->loadSum([
+            'voteableVotes as voteable_votes_sum_upvotes' => function ($query) {
+                return $query->where('votes', '>', 0);
+            },
+        ], 'votes');
         self::assertSame(0, $model->sumUpvotes());
     }
 
@@ -434,12 +442,18 @@ final class VoteableTest extends TestCase
     public function testSumDownvotes($modelClass): void
     {
         $user = User::query()->create();
+
+        /** @var \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel $model */
         $model = $modelClass::query()->create();
         $user->downvote($model);
         self::assertSame(-1, $model->sumDownvotes());
         $user->cancelVote($model);
         self::assertSame(-1, $model->sumDownvotes());
-        $model->loadSumDownvotes();
+        $model->loadSum([
+            'voteableVotes as voteable_votes_sum_downvotes' => function ($query) {
+                return $query->where('votes', '<', 0);
+            },
+        ], 'votes');
         self::assertSame(0, $model->sumDownvotes());
     }
 
