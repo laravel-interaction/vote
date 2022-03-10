@@ -9,10 +9,10 @@ return [
     'uuids' => false,
     'models' => [
         'user' => \App\User::class,
-        'vote' => Vote::class,
+        'pivot' => Vote::class,
     ],
     'table_names' => [
-        'votes' => 'votes',
+        'pivot' => 'votes',
     ],
     'column_names' => [
         'user_foreign_key' => 'user_id',

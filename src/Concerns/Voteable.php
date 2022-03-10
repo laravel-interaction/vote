@@ -228,7 +228,7 @@ trait Voteable
 
     public function voteableVotes(): MorphMany
     {
-        return $this->morphMany(config('vote.models.vote'), 'voteable');
+        return $this->morphMany(config('vote.models.pivot'), 'voteable');
     }
 
     public function voters(): MorphToMany
@@ -236,7 +236,7 @@ trait Voteable
         return $this->morphToMany(
             config('vote.models.user'),
             'voteable',
-            config('vote.models.vote'),
+            config('vote.models.pivot'),
             null,
             config('vote.column_names.user_foreign_key')
         )->withTimestamps()

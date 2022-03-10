@@ -53,7 +53,7 @@ final class VoteTest extends TestCase
 
     public function testGetTable(): void
     {
-        self::assertSame(config('vote.table_names.votes'), $this->vote->getTable());
+        self::assertSame(config('vote.table_names.pivot'), $this->vote->getTable());
     }
 
     public function testVoter(): void

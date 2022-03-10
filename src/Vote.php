@@ -81,7 +81,7 @@ class Vote extends MorphPivot
 
     public function getTable(): string
     {
-        return config('vote.table_names.votes') ?: parent::getTable();
+        return config('vote.table_names.pivot') ?: parent::getTable();
     }
 
     public function isDownvote(): bool
