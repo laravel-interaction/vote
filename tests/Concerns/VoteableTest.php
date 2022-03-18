@@ -20,6 +20,7 @@ final class VoteableTest extends TestCase
     public function provideModelClasses(): Iterator
     {
         yield [Channel::class];
+
         yield [User::class];
     }
 

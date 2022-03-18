@@ -9,12 +9,39 @@ User upvote/downvote behaviour for Laravel.
 <a href="https://packagist.org/packages/laravel-interaction/vote"><img src="https://poser.pugx.org/laravel-interaction/vote/license" alt="License"></a>
 </p>
 
-> **Requires [PHP 7.3+](https://php.net/releases/)**
+## Introduction
 
-Require Laravel Vote using [Composer](https://getcomposer.org):
+It let people express how they feel about the model(documentation/answer/question), is the model helpful/useful or not.
+
+![](https://img.shields.io/badge/%F0%9F%91%8D-1.2k-green?style=social) ![](https://img.shields.io/badge/%F0%9F%91%8E--green?style=social)
+
+## Installation
+
+### Requirements
+
+- [PHP 7.3+](https://php.net/releases/)
+- [Composer](https://getcomposer.org)
+- [Laravel 8.0+](https://laravel.com/docs/releases)
+
+### Instructions
+
+Require Laravel Vote using [Composer](https://getcomposer.org).
 
 ```bash
 composer require laravel-interaction/vote
+```
+
+Publish configuration and migrations
+
+```bash
+php artisan vendor:publish --tag=vote-config
+php artisan vendor:publish --tag=vote-migrations
+```
+
+Run database migrations.
+
+```bash
+php artisan migrate
 ```
 
 ## Usage
