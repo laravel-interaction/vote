@@ -142,7 +142,7 @@ trait Voteable
     {
         return $query->whereHas(
             'downvoters',
-            function (Builder $query) use ($user): Builder {
+            static function (Builder $query) use ($user): Builder {
                 return $query->whereKey($user->getKey());
             }
         );
@@ -152,7 +152,7 @@ trait Voteable
     {
         return $query->whereDoesntHave(
             'downvoters',
-            function (Builder $query) use ($user): Builder {
+            static function (Builder $query) use ($user): Builder {
                 return $query->whereKey($user->getKey());
             }
         );
@@ -162,7 +162,7 @@ trait Voteable
     {
         return $query->whereDoesntHave(
             'upvoters',
-            function (Builder $query) use ($user): Builder {
+            static function (Builder $query) use ($user): Builder {
                 return $query->whereKey($user->getKey());
             }
         );
@@ -172,7 +172,7 @@ trait Voteable
     {
         return $query->whereDoesntHave(
             'voters',
-            function (Builder $query) use ($user): Builder {
+            static function (Builder $query) use ($user): Builder {
                 return $query->whereKey($user->getKey());
             }
         );
@@ -182,7 +182,7 @@ trait Voteable
     {
         return $query->whereHas(
             'upvoters',
-            function (Builder $query) use ($user): Builder {
+            static function (Builder $query) use ($user): Builder {
                 return $query->whereKey($user->getKey());
             }
         );
@@ -192,7 +192,7 @@ trait Voteable
     {
         return $query->whereHas(
             'voters',
-            function (Builder $query) use ($user): Builder {
+            static function (Builder $query) use ($user): Builder {
                 return $query->whereKey($user->getKey());
             }
         );
@@ -314,7 +314,7 @@ trait Voteable
         }
 
         $this->loadSum([
-            'voteableVotes as voteable_votes_sum_upvotes' => function ($query) {
+            'voteableVotes as voteable_votes_sum_upvotes' => static function ($query) {
                 return $query->where('votes', '>', 0);
             },
         ], 'votes');
@@ -344,7 +344,7 @@ trait Voteable
         }
 
         $this->loadSum([
-            'voteableVotes as voteable_votes_sum_downvotes' => function ($query) {
+            'voteableVotes as voteable_votes_sum_downvotes' => static function ($query) {
                 return $query->where('votes', '<', 0);
             },
         ], 'votes');

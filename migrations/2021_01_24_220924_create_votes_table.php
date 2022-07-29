@@ -15,7 +15,7 @@ class CreateVotesTable extends Migration
     {
         Schema::create(
             config('vote.table_names.pivot'),
-            function (Blueprint $table): void {
+            static function (Blueprint $table): void {
                 config('vote.uuids') ? $table->uuid('uuid') : $table->bigIncrements('id');
                 $table->unsignedBigInteger(config('vote.column_names.user_foreign_key'))
                     ->index()

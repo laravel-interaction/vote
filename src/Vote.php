@@ -47,7 +47,7 @@ class Vote extends MorphPivot
         parent::boot();
 
         static::creating(
-            function (self $vote): void {
+            static function (self $vote): void {
                 if ($vote->uuids()) {
                     $vote->{$vote->getKeyName()} = Str::orderedUuid();
                 }
