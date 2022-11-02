@@ -8,13 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class VoteCanceled
 {
-    /**
-     * @var \Illuminate\Database\Eloquent\Model
-     */
-    public $vote;
-
-    public function __construct(Model $vote)
+    public function __construct(public Model $model)
     {
-        $this->vote = $vote;
     }
 }

@@ -27,7 +27,7 @@ trait Voter
             $this->unsetRelation('voterVotes');
         }
 
-        return (bool) $this->votedItems(\get_class($object))
+        return (bool) $this->votedItems($object::class)
             ->detach($object->getKey());
     }
 

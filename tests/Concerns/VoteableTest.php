@@ -428,9 +428,7 @@ final class VoteableTest extends TestCase
         $user->cancelVote($model);
         self::assertSame(1, $model->sumUpvotes());
         $model->loadSum([
-            'voteableVotes as voteable_votes_sum_upvotes' => static function ($query) {
-                return $query->where('votes', '>', 0);
-            },
+            'voteableVotes as voteable_votes_sum_upvotes' => static fn ($query) => $query->where('votes', '>', 0),
         ], 'votes');
         self::assertSame(0, $model->sumUpvotes());
     }
@@ -451,9 +449,7 @@ final class VoteableTest extends TestCase
         $user->cancelVote($model);
         self::assertSame(-1, $model->sumDownvotes());
         $model->loadSum([
-            'voteableVotes as voteable_votes_sum_downvotes' => static function ($query) {
-                return $query->where('votes', '<', 0);
-            },
+            'voteableVotes as voteable_votes_sum_downvotes' => static fn ($query) => $query->where('votes', '<', 0),
         ], 'votes');
         self::assertSame(0, $model->sumDownvotes());
     }

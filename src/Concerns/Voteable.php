@@ -143,9 +143,7 @@ trait Voteable
     {
         return $query->whereHas(
             'downvoters',
-            static function (Builder $query) use ($user): Builder {
-                return $query->whereKey($user->getKey());
-            }
+            static fn (Builder $query): Builder => $query->whereKey($user->getKey())
         );
     }
 
@@ -153,9 +151,7 @@ trait Voteable
     {
         return $query->whereDoesntHave(
             'downvoters',
-            static function (Builder $query) use ($user): Builder {
-                return $query->whereKey($user->getKey());
-            }
+            static fn (Builder $query): Builder => $query->whereKey($user->getKey())
         );
     }
 
@@ -163,9 +159,7 @@ trait Voteable
     {
         return $query->whereDoesntHave(
             'upvoters',
-            static function (Builder $query) use ($user): Builder {
-                return $query->whereKey($user->getKey());
-            }
+            static fn (Builder $query): Builder => $query->whereKey($user->getKey())
         );
     }
 
@@ -173,9 +167,7 @@ trait Voteable
     {
         return $query->whereDoesntHave(
             'voters',
-            static function (Builder $query) use ($user): Builder {
-                return $query->whereKey($user->getKey());
-            }
+            static fn (Builder $query): Builder => $query->whereKey($user->getKey())
         );
     }
 
@@ -183,20 +175,13 @@ trait Voteable
     {
         return $query->whereHas(
             'upvoters',
-            static function (Builder $query) use ($user): Builder {
-                return $query->whereKey($user->getKey());
-            }
+            static fn (Builder $query): Builder => $query->whereKey($user->getKey())
         );
     }
 
     public function scopeWhereVotedBy(Builder $query, Model $user): Builder
     {
-        return $query->whereHas(
-            'voters',
-            static function (Builder $query) use ($user): Builder {
-                return $query->whereKey($user->getKey());
-            }
-        );
+        return $query->whereHas('voters', static fn (Builder $query): Builder => $query->whereKey($user->getKey()));
     }
 
     public function upvoters(): MorphToMany
@@ -274,10 +259,7 @@ trait Voteable
         );
     }
 
-    /**
-     * @param mixed $user
-     */
-    protected function isVoter($user): bool
+    protected function isVoter(mixed $user): bool
     {
         return is_a($user, config('vote.models.user'));
     }
@@ -315,9 +297,7 @@ trait Voteable
         }
 
         $this->loadSum([
-            'voteableVotes as voteable_votes_sum_upvotes' => static function ($query) {
-                return $query->where('votes', '>', 0);
-            },
+            'voteableVotes as voteable_votes_sum_upvotes' => static fn ($query) => $query->where('votes', '>', 0),
         ], 'votes');
 
         return (int) $this->voteable_votes_sum_upvotes;
@@ -345,9 +325,7 @@ trait Voteable
         }
 
         $this->loadSum([
-            'voteableVotes as voteable_votes_sum_downvotes' => static function ($query) {
-                return $query->where('votes', '<', 0);
-            },
+            'voteableVotes as voteable_votes_sum_downvotes' => static fn ($query) => $query->where('votes', '<', 0),
         ], 'votes');
 
         return (int) $this->voteable_votes_sum_downvotes;

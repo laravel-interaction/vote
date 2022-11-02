@@ -14,20 +14,11 @@ use LaravelInteraction\Vote\Vote;
  */
 final class VoteTest extends TestCase
 {
-    /**
-     * @var \LaravelInteraction\Vote\Tests\Models\User
-     */
-    private $user;
+    private \LaravelInteraction\Vote\Tests\Models\User $user;
 
-    /**
-     * @var \LaravelInteraction\Vote\Tests\Models\Channel
-     */
-    private $channel;
+    private \LaravelInteraction\Vote\Tests\Models\Channel $channel;
 
-    /**
-     * @var \LaravelInteraction\Vote\Vote
-     */
-    private $vote;
+    private \LaravelInteraction\Vote\Vote $vote;
 
     protected function setUp(): void
     {
