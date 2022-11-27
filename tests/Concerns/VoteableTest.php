@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace LaravelInteraction\Vote\Tests\Concerns;
 
-use Iterator;
 use LaravelInteraction\Vote\Tests\Models\Channel;
 use LaravelInteraction\Vote\Tests\Models\User;
 use LaravelInteraction\Vote\Tests\TestCase;
@@ -17,7 +16,7 @@ final class VoteableTest extends TestCase
     /**
      * @return \Iterator<array<class-string<\LaravelInteraction\Vote\Tests\Models\Channel|\LaravelInteraction\Vote\Tests\Models\User>>>
      */
-    public function provideModelClasses(): Iterator
+    public function provideModelClasses(): \Iterator
     {
         yield [Channel::class];
 
