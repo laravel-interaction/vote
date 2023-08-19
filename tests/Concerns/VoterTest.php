@@ -94,8 +94,8 @@ final class VoterTest extends TestCase
         $user = User::query()->create();
         $channel = Channel::query()->create();
         $user->vote($channel);
-        self::assertSame(1, $user->voterVotes()->count());
-        self::assertSame(1, $user->voterVotes->count());
+        $this->assertSame(1, $user->voterVotes()->count());
+        $this->assertSame(1, $user->voterVotes->count());
     }
 
     public function testHasVoted(): void
@@ -103,10 +103,10 @@ final class VoterTest extends TestCase
         $user = User::query()->create();
         $channel = Channel::query()->create();
         $user->vote($channel);
-        self::assertTrue($user->hasVoted($channel));
+        $this->assertTrue($user->hasVoted($channel));
         $user->cancelVote($channel);
         $user->load('voterVotes');
-        self::assertFalse($user->hasVoted($channel));
+        $this->assertFalse($user->hasVoted($channel));
     }
 
     public function testHasUpvoted(): void
@@ -114,10 +114,10 @@ final class VoterTest extends TestCase
         $user = User::query()->create();
         $channel = Channel::query()->create();
         $user->vote($channel);
-        self::assertTrue($user->hasUpvoted($channel));
+        $this->assertTrue($user->hasUpvoted($channel));
         $user->cancelVote($channel);
         $user->load('voterVotes');
-        self::assertFalse($user->hasUpvoted($channel));
+        $this->assertFalse($user->hasUpvoted($channel));
     }
 
     public function testHasDownvoted(): void
@@ -125,10 +125,10 @@ final class VoterTest extends TestCase
         $user = User::query()->create();
         $channel = Channel::query()->create();
         $user->downvote($channel);
-        self::assertTrue($user->hasDownvoted($channel));
+        $this->assertTrue($user->hasDownvoted($channel));
         $user->cancelVote($channel);
         $user->load('voterVotes');
-        self::assertFalse($user->hasDownvoted($channel));
+        $this->assertFalse($user->hasDownvoted($channel));
     }
 
     public function testHasNotVoted(): void
@@ -136,9 +136,9 @@ final class VoterTest extends TestCase
         $user = User::query()->create();
         $channel = Channel::query()->create();
         $user->vote($channel);
-        self::assertFalse($user->hasNotVoted($channel));
+        $this->assertFalse($user->hasNotVoted($channel));
         $user->cancelVote($channel);
-        self::assertTrue($user->hasNotVoted($channel));
+        $this->assertTrue($user->hasNotVoted($channel));
     }
 
     public function testHasNotUpvoted(): void
@@ -146,9 +146,9 @@ final class VoterTest extends TestCase
         $user = User::query()->create();
         $channel = Channel::query()->create();
         $user->upvote($channel);
-        self::assertFalse($user->hasNotUpvoted($channel));
+        $this->assertFalse($user->hasNotUpvoted($channel));
         $user->cancelVote($channel);
-        self::assertTrue($user->hasNotUpvoted($channel));
+        $this->assertTrue($user->hasNotUpvoted($channel));
     }
 
     public function testHasNotDownvoted(): void
@@ -156,9 +156,9 @@ final class VoterTest extends TestCase
         $user = User::query()->create();
         $channel = Channel::query()->create();
         $user->downvote($channel);
-        self::assertFalse($user->hasNotDownvoted($channel));
+        $this->assertFalse($user->hasNotDownvoted($channel));
         $user->cancelVote($channel);
-        self::assertTrue($user->hasNotDownvoted($channel));
+        $this->assertTrue($user->hasNotDownvoted($channel));
     }
 
     public function testVotedItems(): void
@@ -166,9 +166,9 @@ final class VoterTest extends TestCase
         $user = User::query()->create();
         $channel = Channel::query()->create();
         $user->vote($channel);
-        self::assertTrue($channel->is($user->votedChannels()->first()));
+        $this->assertTrue($channel->is($user->votedChannels()->first()));
         $user->cancelVote($channel);
-        self::assertNull($user->votedChannels()->first());
+        $this->assertNull($user->votedChannels()->first());
     }
 
     public function testUpvotedItems(): void
@@ -176,9 +176,9 @@ final class VoterTest extends TestCase
         $user = User::query()->create();
         $channel = Channel::query()->create();
         $user->upvote($channel);
-        self::assertTrue($channel->is($user->upvotedChannels()->first()));
+        $this->assertTrue($channel->is($user->upvotedChannels()->first()));
         $user->cancelVote($channel);
-        self::assertNull($user->upvotedChannels()->first());
+        $this->assertNull($user->upvotedChannels()->first());
     }
 
     public function testDownvotedItems(): void
@@ -186,8 +186,8 @@ final class VoterTest extends TestCase
         $user = User::query()->create();
         $channel = Channel::query()->create();
         $user->downvote($channel);
-        self::assertTrue($channel->is($user->downvotedChannels()->first()));
+        $this->assertTrue($channel->is($user->downvotedChannels()->first()));
         $user->cancelVote($channel);
-        self::assertNull($user->downvotedChannels()->first());
+        $this->assertNull($user->downvotedChannels()->first());
     }
 }

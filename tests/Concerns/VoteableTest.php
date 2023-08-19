@@ -33,8 +33,8 @@ final class VoteableTest extends TestCase
         $user = User::query()->create();
         $model = $modelClass::query()->create();
         $user->vote($model);
-        self::assertSame(1, $model->voteableVotes()->count());
-        self::assertSame(1, $model->voteableVotes->count());
+        $this->assertSame(1, $model->voteableVotes()->count());
+        $this->assertSame(1, $model->voteableVotes->count());
     }
 
     /**
@@ -47,11 +47,11 @@ final class VoteableTest extends TestCase
         $user = User::query()->create();
         $model = $modelClass::query()->create();
         $user->vote($model);
-        self::assertSame(1, $model->votersCount());
+        $this->assertSame(1, $model->votersCount());
         $user->cancelVote($model);
-        self::assertSame(1, $model->votersCount());
+        $this->assertSame(1, $model->votersCount());
         $model->loadCount('voters');
-        self::assertSame(0, $model->votersCount());
+        $this->assertSame(0, $model->votersCount());
     }
 
     /**
@@ -64,11 +64,11 @@ final class VoteableTest extends TestCase
         $user = User::query()->create();
         $model = $modelClass::query()->create();
         $user->upvote($model);
-        self::assertSame(1, $model->upvotersCount());
+        $this->assertSame(1, $model->upvotersCount());
         $user->cancelVote($model);
-        self::assertSame(1, $model->upvotersCount());
+        $this->assertSame(1, $model->upvotersCount());
         $model->loadCount('upvoters');
-        self::assertSame(0, $model->upvotersCount());
+        $this->assertSame(0, $model->upvotersCount());
     }
 
     /**
@@ -81,11 +81,11 @@ final class VoteableTest extends TestCase
         $user = User::query()->create();
         $model = $modelClass::query()->create();
         $user->downvote($model);
-        self::assertSame(1, $model->downvotersCount());
+        $this->assertSame(1, $model->downvotersCount());
         $user->cancelVote($model);
-        self::assertSame(1, $model->downvotersCount());
+        $this->assertSame(1, $model->downvotersCount());
         $model->loadCount('downvoters');
-        self::assertSame(0, $model->downvotersCount());
+        $this->assertSame(0, $model->downvotersCount());
     }
 
     /**
@@ -98,7 +98,7 @@ final class VoteableTest extends TestCase
         $user = User::query()->create();
         $model = $modelClass::query()->create();
         $user->vote($model);
-        self::assertSame('1', $model->votersCountForHumans());
+        $this->assertSame('1', $model->votersCountForHumans());
     }
 
     /**
@@ -111,7 +111,7 @@ final class VoteableTest extends TestCase
         $user = User::query()->create();
         $model = $modelClass::query()->create();
         $user->upvote($model);
-        self::assertSame('1', $model->upvotersCountForHumans());
+        $this->assertSame('1', $model->upvotersCountForHumans());
     }
 
     /**
@@ -124,7 +124,7 @@ final class VoteableTest extends TestCase
         $user = User::query()->create();
         $model = $modelClass::query()->create();
         $user->downvote($model);
-        self::assertSame('1', $model->downvotersCountForHumans());
+        $this->assertSame('1', $model->downvotersCountForHumans());
     }
 
     /**
@@ -136,14 +136,14 @@ final class VoteableTest extends TestCase
     {
         $user = User::query()->create();
         $model = $modelClass::query()->create();
-        self::assertFalse($model->isVotedBy($model));
+        $this->assertFalse($model->isVotedBy($model));
         $user->vote($model);
-        self::assertTrue($model->isVotedBy($user));
+        $this->assertTrue($model->isVotedBy($user));
         $model->load('voters');
         $user->cancelVote($model);
-        self::assertTrue($model->isVotedBy($user));
+        $this->assertTrue($model->isVotedBy($user));
         $model->load('voters');
-        self::assertFalse($model->isVotedBy($user));
+        $this->assertFalse($model->isVotedBy($user));
     }
 
     /**
@@ -155,14 +155,14 @@ final class VoteableTest extends TestCase
     {
         $user = User::query()->create();
         $model = $modelClass::query()->create();
-        self::assertTrue($model->isNotVotedBy($model));
+        $this->assertTrue($model->isNotVotedBy($model));
         $user->vote($model);
-        self::assertFalse($model->isNotVotedBy($user));
+        $this->assertFalse($model->isNotVotedBy($user));
         $model->load('voters');
         $user->cancelVote($model);
-        self::assertFalse($model->isNotVotedBy($user));
+        $this->assertFalse($model->isNotVotedBy($user));
         $model->load('voters');
-        self::assertTrue($model->isNotVotedBy($user));
+        $this->assertTrue($model->isNotVotedBy($user));
     }
 
     /**
@@ -174,14 +174,14 @@ final class VoteableTest extends TestCase
     {
         $user = User::query()->create();
         $model = $modelClass::query()->create();
-        self::assertFalse($model->isVotedBy($model));
+        $this->assertFalse($model->isVotedBy($model));
         $user->upvote($model);
-        self::assertTrue($model->isUpvotedBy($user));
+        $this->assertTrue($model->isUpvotedBy($user));
         $model->load('upvoters');
         $user->cancelVote($model);
-        self::assertTrue($model->isUpvotedBy($user));
+        $this->assertTrue($model->isUpvotedBy($user));
         $model->load('upvoters');
-        self::assertFalse($model->isUpvotedBy($user));
+        $this->assertFalse($model->isUpvotedBy($user));
     }
 
     /**
@@ -193,14 +193,14 @@ final class VoteableTest extends TestCase
     {
         $user = User::query()->create();
         $model = $modelClass::query()->create();
-        self::assertTrue($model->isNotUpvotedBy($model));
+        $this->assertTrue($model->isNotUpvotedBy($model));
         $user->vote($model);
-        self::assertFalse($model->isNotUpvotedBy($user));
+        $this->assertFalse($model->isNotUpvotedBy($user));
         $model->load('upvoters');
         $user->cancelVote($model);
-        self::assertFalse($model->isNotUpvotedBy($user));
+        $this->assertFalse($model->isNotUpvotedBy($user));
         $model->load('upvoters');
-        self::assertTrue($model->isNotUpvotedBy($user));
+        $this->assertTrue($model->isNotUpvotedBy($user));
     }
 
     /**
@@ -212,14 +212,14 @@ final class VoteableTest extends TestCase
     {
         $user = User::query()->create();
         $model = $modelClass::query()->create();
-        self::assertFalse($model->isDownvotedBy($model));
+        $this->assertFalse($model->isDownvotedBy($model));
         $user->downvote($model);
-        self::assertTrue($model->isDownvotedBy($user));
+        $this->assertTrue($model->isDownvotedBy($user));
         $model->load('downvoters');
         $user->cancelVote($model);
-        self::assertTrue($model->isDownvotedBy($user));
+        $this->assertTrue($model->isDownvotedBy($user));
         $model->load('downvoters');
-        self::assertFalse($model->isDownvotedBy($user));
+        $this->assertFalse($model->isDownvotedBy($user));
     }
 
     /**
@@ -231,14 +231,14 @@ final class VoteableTest extends TestCase
     {
         $user = User::query()->create();
         $model = $modelClass::query()->create();
-        self::assertTrue($model->isNotDownvotedBy($model));
+        $this->assertTrue($model->isNotDownvotedBy($model));
         $user->downvote($model);
-        self::assertFalse($model->isNotDownvotedBy($user));
+        $this->assertFalse($model->isNotDownvotedBy($user));
         $model->load('downvoters');
         $user->cancelVote($model);
-        self::assertFalse($model->isNotDownvotedBy($user));
+        $this->assertFalse($model->isNotDownvotedBy($user));
         $model->load('downvoters');
-        self::assertTrue($model->isNotDownvotedBy($user));
+        $this->assertTrue($model->isNotDownvotedBy($user));
     }
 
     /**
@@ -251,9 +251,9 @@ final class VoteableTest extends TestCase
         $user = User::query()->create();
         $model = $modelClass::query()->create();
         $user->vote($model);
-        self::assertSame(1, $model->voters()->count());
+        $this->assertSame(1, $model->voters()->count());
         $user->cancelVote($model);
-        self::assertSame(0, $model->voters()->count());
+        $this->assertSame(0, $model->voters()->count());
     }
 
     /**
@@ -266,9 +266,9 @@ final class VoteableTest extends TestCase
         $user = User::query()->create();
         $model = $modelClass::query()->create();
         $user->upvote($model);
-        self::assertSame(1, $model->upvoters()->count());
+        $this->assertSame(1, $model->upvoters()->count());
         $user->cancelVote($model);
-        self::assertSame(0, $model->upvoters()->count());
+        $this->assertSame(0, $model->upvoters()->count());
     }
 
     /**
@@ -281,9 +281,9 @@ final class VoteableTest extends TestCase
         $user = User::query()->create();
         $model = $modelClass::query()->create();
         $user->downvote($model);
-        self::assertSame(1, $model->downvoters()->count());
+        $this->assertSame(1, $model->downvoters()->count());
         $user->cancelVote($model);
-        self::assertSame(0, $model->downvoters()->count());
+        $this->assertSame(0, $model->downvoters()->count());
     }
 
     /**
@@ -297,8 +297,8 @@ final class VoteableTest extends TestCase
         $other = User::query()->create();
         $model = $modelClass::query()->create();
         $user->vote($model);
-        self::assertSame(1, $modelClass::query()->whereVotedBy($user)->count());
-        self::assertSame(0, $modelClass::query()->whereVotedBy($other)->count());
+        $this->assertSame(1, $modelClass::query()->whereVotedBy($user)->count());
+        $this->assertSame(0, $modelClass::query()->whereVotedBy($other)->count());
     }
 
     /**
@@ -312,11 +312,11 @@ final class VoteableTest extends TestCase
         $other = User::query()->create();
         $model = $modelClass::query()->create();
         $user->vote($model);
-        self::assertSame(
+        $this->assertSame(
             $modelClass::query()->whereKeyNot($model->getKey())->count(),
             $modelClass::query()->whereNotVotedBy($user)->count()
         );
-        self::assertSame($modelClass::query()->count(), $modelClass::query()->whereNotVotedBy($other)->count());
+        $this->assertSame($modelClass::query()->count(), $modelClass::query()->whereNotVotedBy($other)->count());
     }
 
     /**
@@ -330,8 +330,8 @@ final class VoteableTest extends TestCase
         $other = User::query()->create();
         $model = $modelClass::query()->create();
         $user->upvote($model);
-        self::assertSame(1, $modelClass::query()->whereUpvotedBy($user)->count());
-        self::assertSame(0, $modelClass::query()->whereUpvotedBy($other)->count());
+        $this->assertSame(1, $modelClass::query()->whereUpvotedBy($user)->count());
+        $this->assertSame(0, $modelClass::query()->whereUpvotedBy($other)->count());
     }
 
     /**
@@ -345,11 +345,11 @@ final class VoteableTest extends TestCase
         $other = User::query()->create();
         $model = $modelClass::query()->create();
         $user->upvote($model);
-        self::assertSame(
+        $this->assertSame(
             $modelClass::query()->whereKeyNot($model->getKey())->count(),
             $modelClass::query()->whereNotUpvotedBy($user)->count()
         );
-        self::assertSame($modelClass::query()->count(), $modelClass::query()->whereNotUpvotedBy($other)->count());
+        $this->assertSame($modelClass::query()->count(), $modelClass::query()->whereNotUpvotedBy($other)->count());
     }
 
     /**
@@ -363,8 +363,8 @@ final class VoteableTest extends TestCase
         $other = User::query()->create();
         $model = $modelClass::query()->create();
         $user->downvote($model);
-        self::assertSame(1, $modelClass::query()->whereDownVotedBy($user)->count());
-        self::assertSame(0, $modelClass::query()->whereDownVotedBy($other)->count());
+        $this->assertSame(1, $modelClass::query()->whereDownVotedBy($user)->count());
+        $this->assertSame(0, $modelClass::query()->whereDownVotedBy($other)->count());
     }
 
     /**
@@ -378,11 +378,11 @@ final class VoteableTest extends TestCase
         $other = User::query()->create();
         $model = $modelClass::query()->create();
         $user->downvote($model);
-        self::assertSame(
+        $this->assertSame(
             $modelClass::query()->whereKeyNot($model->getKey())->count(),
             $modelClass::query()->whereNotDownvotedBy($user)->count()
         );
-        self::assertSame($modelClass::query()->count(), $modelClass::query()->whereNotDownvotedBy($other)->count());
+        $this->assertSame($modelClass::query()->count(), $modelClass::query()->whereNotDownvotedBy($other)->count());
     }
 
     /**
@@ -398,17 +398,17 @@ final class VoteableTest extends TestCase
         /** @var \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel $model */
         $model = $modelClass::query()->create();
         $user->vote($model);
-        self::assertSame(1, $model->sumVotes());
+        $this->assertSame(1, $model->sumVotes());
         $user->cancelVote($model);
-        self::assertSame(1, $model->sumVotes());
+        $this->assertSame(1, $model->sumVotes());
         $model->loadSum('voteableVotes', 'votes');
-        self::assertSame(0, $model->sumVotes());
+        $this->assertSame(0, $model->sumVotes());
         $user->upvote($model, 3);
         $model->loadSum('voteableVotes', 'votes');
-        self::assertSame(3, $model->sumVotes());
+        $this->assertSame(3, $model->sumVotes());
         $other->downvote($model, 2);
         $model->loadSum('voteableVotes', 'votes');
-        self::assertSame(1, $model->sumVotes());
+        $this->assertSame(1, $model->sumVotes());
     }
 
     /**
@@ -423,13 +423,13 @@ final class VoteableTest extends TestCase
         /** @var \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel $model */
         $model = $modelClass::query()->create();
         $user->upvote($model);
-        self::assertSame(1, $model->sumUpvotes());
+        $this->assertSame(1, $model->sumUpvotes());
         $user->cancelVote($model);
-        self::assertSame(1, $model->sumUpvotes());
+        $this->assertSame(1, $model->sumUpvotes());
         $model->loadSum([
             'voteableVotes as voteable_votes_sum_upvotes' => static fn ($query) => $query->where('votes', '>', 0),
         ], 'votes');
-        self::assertSame(0, $model->sumUpvotes());
+        $this->assertSame(0, $model->sumUpvotes());
     }
 
     /**
@@ -444,13 +444,13 @@ final class VoteableTest extends TestCase
         /** @var \LaravelInteraction\Vote\Tests\Models\User|\LaravelInteraction\Vote\Tests\Models\Channel $model */
         $model = $modelClass::query()->create();
         $user->downvote($model);
-        self::assertSame(-1, $model->sumDownvotes());
+        $this->assertSame(-1, $model->sumDownvotes());
         $user->cancelVote($model);
-        self::assertSame(-1, $model->sumDownvotes());
+        $this->assertSame(-1, $model->sumDownvotes());
         $model->loadSum([
             'voteableVotes as voteable_votes_sum_downvotes' => static fn ($query) => $query->where('votes', '<', 0),
         ], 'votes');
-        self::assertSame(0, $model->sumDownvotes());
+        $this->assertSame(0, $model->sumDownvotes());
     }
 
     /**
@@ -463,7 +463,7 @@ final class VoteableTest extends TestCase
         $user = User::query()->create();
         $model = $modelClass::query()->create();
         $user->vote($model);
-        self::assertSame('1', $model->sumVotesForHumans());
+        $this->assertSame('1', $model->sumVotesForHumans());
     }
 
     /**
@@ -476,7 +476,7 @@ final class VoteableTest extends TestCase
         $user = User::query()->create();
         $model = $modelClass::query()->create();
         $user->upvote($model);
-        self::assertSame('1', $model->sumUpvotesForHumans());
+        $this->assertSame('1', $model->sumUpvotesForHumans());
     }
 
     /**
@@ -489,6 +489,6 @@ final class VoteableTest extends TestCase
         $user = User::query()->create();
         $model = $modelClass::query()->create();
         $user->downvote($model);
-        self::assertSame('-1', $model->sumDownvotesForHumans());
+        $this->assertSame('-1', $model->sumDownvotesForHumans());
     }
 }

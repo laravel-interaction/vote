@@ -32,55 +32,55 @@ final class VoteTest extends TestCase
 
     public function testVoteTimestamp(): void
     {
-        self::assertInstanceOf(Carbon::class, $this->vote->created_at);
-        self::assertInstanceOf(Carbon::class, $this->vote->updated_at);
+        $this->assertInstanceOf(Carbon::class, $this->vote->created_at);
+        $this->assertInstanceOf(Carbon::class, $this->vote->updated_at);
     }
 
     public function testScopeWithType(): void
     {
-        self::assertSame(1, Vote::query()->withType(Channel::class)->count());
-        self::assertSame(0, Vote::query()->withType(User::class)->count());
+        $this->assertSame(1, Vote::query()->withType(Channel::class)->count());
+        $this->assertSame(0, Vote::query()->withType(User::class)->count());
     }
 
     public function testGetTable(): void
     {
-        self::assertSame(config('vote.table_names.pivot'), $this->vote->getTable());
+        $this->assertSame(config('vote.table_names.pivot'), $this->vote->getTable());
     }
 
     public function testVoter(): void
     {
-        self::assertInstanceOf(User::class, $this->vote->voter);
+        $this->assertInstanceOf(User::class, $this->vote->voter);
     }
 
     public function testVoteable(): void
     {
-        self::assertInstanceOf(Channel::class, $this->vote->voteable);
+        $this->assertInstanceOf(Channel::class, $this->vote->voteable);
     }
 
     public function testUser(): void
     {
-        self::assertInstanceOf(User::class, $this->vote->user);
+        $this->assertInstanceOf(User::class, $this->vote->user);
     }
 
     public function testIsVotedTo(): void
     {
-        self::assertTrue($this->vote->isVotedTo($this->channel));
-        self::assertFalse($this->vote->isVotedTo($this->user));
+        $this->assertTrue($this->vote->isVotedTo($this->channel));
+        $this->assertFalse($this->vote->isVotedTo($this->user));
     }
 
     public function testIsVotedBy(): void
     {
-        self::assertFalse($this->vote->isVotedBy($this->channel));
-        self::assertTrue($this->vote->isVotedBy($this->user));
+        $this->assertFalse($this->vote->isVotedBy($this->channel));
+        $this->assertTrue($this->vote->isVotedBy($this->user));
     }
 
     public function testIsUpvote(): void
     {
-        self::assertTrue($this->vote->isUpvote());
+        $this->assertTrue($this->vote->isUpvote());
     }
 
     public function testIsDownvote(): void
     {
-        self::assertFalse($this->vote->isDownvote());
+        $this->assertFalse($this->vote->isDownvote());
     }
 }
