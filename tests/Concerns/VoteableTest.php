@@ -34,7 +34,7 @@ final class VoteableTest extends TestCase
         $model = $modelClass::query()->create();
         $user->vote($model);
         $this->assertSame(1, $model->voteableVotes()->count());
-        $this->assertSame(1, $model->voteableVotes->count());
+        $this->assertCount(1, $model->voteableVotes);
     }
 
     /**

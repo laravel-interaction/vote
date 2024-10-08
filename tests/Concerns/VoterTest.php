@@ -95,7 +95,7 @@ final class VoterTest extends TestCase
         $channel = Channel::query()->create();
         $user->vote($channel);
         $this->assertSame(1, $user->voterVotes()->count());
-        $this->assertSame(1, $user->voterVotes->count());
+        $this->assertCount(1, $user->voterVotes);
     }
 
     public function testHasVoted(): void
