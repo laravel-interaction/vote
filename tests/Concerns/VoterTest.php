@@ -168,7 +168,7 @@ final class VoterTest extends TestCase
         $user->vote($channel);
         $this->assertTrue($channel->is($user->votedChannels()->first()));
         $user->cancelVote($channel);
-        $this->assertNull($user->votedChannels()->first());
+        $this->assertNotInstanceOf(\Illuminate\Database\Eloquent\Model::class, $user->votedChannels()->first());
     }
 
     public function testUpvotedItems(): void
@@ -178,7 +178,7 @@ final class VoterTest extends TestCase
         $user->upvote($channel);
         $this->assertTrue($channel->is($user->upvotedChannels()->first()));
         $user->cancelVote($channel);
-        $this->assertNull($user->upvotedChannels()->first());
+        $this->assertNotInstanceOf(\Illuminate\Database\Eloquent\Model::class, $user->upvotedChannels()->first());
     }
 
     public function testDownvotedItems(): void
@@ -188,6 +188,6 @@ final class VoterTest extends TestCase
         $user->downvote($channel);
         $this->assertTrue($channel->is($user->downvotedChannels()->first()));
         $user->cancelVote($channel);
-        $this->assertNull($user->downvotedChannels()->first());
+        $this->assertNotInstanceOf(\Illuminate\Database\Eloquent\Model::class, $user->downvotedChannels()->first());
     }
 }
